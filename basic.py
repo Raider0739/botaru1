@@ -159,6 +159,7 @@ async def help(ctx, user: discord.User=None):
     em.add_field(name='kill', value='Kills the member you mention', inline=False)
     em.add_field(name='fistbump', value='Bumps fist with the member you mention', inline=False)
     em.add_field(name='bunny', value='Sends cute bunny gifs', inline=False)
+    em.add_field(name='punch', value='Punches the member you mention', inline=False)
     emb = discord.Embed(colour=discord.Colour.blue())
     emb.set_author(name='Help 1')
     emb.add_field(name='gay', value='Calls the person you mention gay(only for fun purposes)', inline=False)

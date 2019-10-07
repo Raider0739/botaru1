@@ -933,6 +933,32 @@ class Fun(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def punch(self, ctx, member: discord.Member):
+        author = ctx.message.author.name
+        mention = member.name
+
+        punch = '**{0} punches {1}**'
+        choices = ['https://media1.tenor.com/images/c22ccca9bccec97234cfa3f0147c32a9/tenor.gif?itemid=5234627',
+                   'https://thumbs.gfycat.com/SecondFeminineDuckbillcat-size_restricted.gif',
+                   'https://media1.tenor.com/images/92f4595d3f6ac39b6c175eb3d454fec2/tenor.gif?itemid=10460715',
+                   'https://thumbs.gfycat.com/ImperfectFrightenedFoal-size_restricted.gif',
+                   'https://i.pinimg.com/originals/bc/96/17/bc9617a2460e4640fcd9cf474bea2c10.gif',
+                   'https://media2.giphy.com/media/YjHx1taZwpfd6/source.gif',
+                   'https://thumbs.gfycat.com/IllinformedRipeFlounder-size_restricted.gif',
+                   'https://3.bp.blogspot.com/-k8BL9FEo_YI/Vx01PlromnI/AAAAAAAAAEo/vVEBwcQ1WHspWeDsuUdfFQp47YUj7HEBgCLcB/s1600/Punch%2B5.gif',
+                   'https://media.tenor.com/images/9000aca94295d6438ea941069e402e77/tenor.gif',
+                   'https://thumbs.gfycat.com/TeemingMeekGrouse-size_restricted.gif',
+                   'https://image.myanimelist.net/ui/Z-1YCGdu5bHV02CityXmcU9OsIUZ3cArNJm65_eebXwHpLByYvLQV4ProdsQ4Iuoks76IHKSX6xqEsTYgpAyaSV7_VFhUXly5LFcPRgFLvE',
+                   'https://pa1.narvii.com/5897/323ecb6c1ce55337a0e3c3a45be7cba0e77d222b_hq.gif',
+                   'https://static.fjcdn.com/gifs/Turning+anime+into+manga+with+one+punch_78b39f_5520149.gif']
+        image = random.choice(choices)
+
+        embed = discord.Embed(description=punch.format(author, mention), colour=discord.Colour.blue())
+        embed.set_image(url=image)
+
+        await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Fun(client))
