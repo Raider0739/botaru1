@@ -98,6 +98,16 @@ class Moderation(commands.Cog):
 
         await ctx.send(f'{list}')
 
+    @commands.command()
+    @commands.has_role('Verification Team')
+    async def verify(self, ctx, user: discord.Member):
+        if user.roles == 'Verified Club':
+            await ctx.send(f'**{user.name} is already verified**')
+
+        else:
+            await user.add_roles('Verified Club')
+            await ctx.send(f'**{ctx.author.name} verified {user.name}**')
+
 
 def setup(client):
     client.add_cog(Moderation(client))
