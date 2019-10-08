@@ -98,6 +98,17 @@ class Moderation(commands.Cog):
 
         await ctx.send(f'{list}')
 
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def roleall(self, ctx, member: discord.Member, role: discord.Role):
+        for member in ctx.guild.members:
+            try:
+                await member.add_role(role)
+
+            except:
+                pass
+        await ctx.send('**Giving role to every member in this server it might take a while**')
+
 
 def setup(client):
     client.add_cog(Moderation(client))
