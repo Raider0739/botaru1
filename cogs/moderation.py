@@ -98,9 +98,9 @@ class Moderation(commands.Cog):
 
         await ctx.send(f'{list}')
 
-    @commands.command()
+    @commands.command(aliases=['ra'])
     @commands.has_permissions(manage_roles=True)
-    async def roleall(self, ctx, *,role: discord.Role):
+    async def roleall(self, ctx, *, role: discord.Role):
         await ctx.send('**Be patient when i am working on adding roles to everyone**')
 
         for member in ctx.guild.members:
@@ -108,9 +108,12 @@ class Moderation(commands.Cog):
             await member.add_roles(role)
         await ctx.send('**Role given to everyone successfully**')
 
-
-
-
+    @roleall.error
+    async def roleall_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send('**You don\'t have permission to do that!**')
+        if isinstance(error, commands.BadArgument):
+            await ctx.send('**Make sure you type it correctly!**')
 
 
 def setup(client):
