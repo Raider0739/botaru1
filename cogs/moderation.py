@@ -100,14 +100,17 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
-    async def roleall(self, ctx, member: discord.Member, role: discord.Role):
-        for member in ctx.guild.members:
-            try:
-                await member.add_role(role)
+    async def roleall(self, ctx, role: discord.Role):
+        await ctx.send('**Be patient when i am working on adding roles to everyone**')
 
-            except:
-                pass
-        await ctx.send('**Giving role to every member in this server it might take a while**')
+        for member in ctx.guild.members:
+
+            await member.add_roles(role)
+        await ctx.send('**Role given to everyone successfully**')
+
+
+
+
 
 
 def setup(client):
