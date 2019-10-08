@@ -114,7 +114,10 @@ class Moderation(commands.Cog):
             await ctx.send('**You don\'t have permission to do that!**')
         if isinstance(error, commands.BadArgument):
             await ctx.send('**Make sure you type it correctly!**')
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You need to type in the role name**')
 
+        raise error
 
 def setup(client):
     client.add_cog(Moderation(client))
