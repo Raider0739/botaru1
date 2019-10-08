@@ -100,7 +100,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
-    async def roleall(self, ctx, role: discord.Role):
+    async def roleall(self, ctx, *,role: discord.Role):
         await ctx.send('**Be patient when i am working on adding roles to everyone**')
 
         for member in ctx.guild.members:
