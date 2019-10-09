@@ -1244,7 +1244,7 @@ class Nsfw(commands.Cog):
 
     @commands.command()
     @commands.is_nsfw()
-    async def finger(self, ctx, member: discord.Member = None):
+    async def finger(self, ctx, member: discord.Member):
         author_gender = determineGender(ctx.author)
         mention_gender = determineGender(member)
 
