@@ -4,7 +4,9 @@ import random
 from discord.ext import commands
 from discord.ext.commands import Greedy
 from discord import User
-from discord.ext.commands import has_permissions, CheckFailure
+
+
+
 
 class Fun(commands.Cog):
 
@@ -958,6 +960,7 @@ class Fun(commands.Cog):
         embed.set_image(url=image)
 
         await ctx.send(embed=embed)
+
 
 
 def setup(client):

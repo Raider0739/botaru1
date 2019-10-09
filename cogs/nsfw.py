@@ -1,6 +1,9 @@
 import discord
 import random
 from discord.ext import commands
+from discord.ext.commands import Greedy
+from discord import User
+import helper
 
 
 def determineGender(mention):
@@ -40,6 +43,7 @@ class Nsfw(commands.Cog):
         em.add_field(name='lick', value='Licks the member you mention', inline=False)
         em.add_field(name='tits(tiddy,tiddies)', value='Sends some tits in chat', inline=False)
         em.add_field(name='tease', value='Teases the member you mention', inline=False)
+        em.add_field(name='finger', value='Fingers the member you mention', inline=False)
         em.set_footer(text='Channel must be NSFW to use the commands!')
         await user.send(embed=em)
         await ctx.send('**Sending a list of NSFW commands in your DMs**')
@@ -1236,6 +1240,134 @@ class Nsfw(commands.Cog):
                 embed.set_image(url=image)
 
                 await ctx.send(embed=embed)
+
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def finger(self, ctx, member: discord.Member = None):
+        author_gender = determineGender(ctx.author)
+        mention_gender = determineGender(member)
+
+        if author_gender == 'male':
+            if mention_gender == 'female':
+                author = ctx.message.author.name
+                mention = member.name
+
+                finger = '**{0} fingers {1}**'
+                choices = ['http://gifsgonewild.com/wp-content/uploads/2019/06/ezgif-2-af51b7354c33.gif',
+                           'https://i.imgur.com/9CgmNzD.gif',
+                           'https://i.imgur.com/prL0gJV.gif',
+                           'https://i.imgur.com/A1n75nE.gif',
+                           'https://i.imgur.com/jazK311.gif',
+                           'https://i.imgur.com/SYjPFIo.gif',
+                           'https://i.imgur.com/8bg9DDt.gif',
+                           'https://i.imgur.com/PsqRVv4.gif',
+                           'https://i.imgur.com/9bIzccy.gif',
+                           'https://i.imgur.com/44i8wIA.gif',
+                           'https://i.imgur.com/svsazqV.gif',
+                           'https://i.imgur.com/iIid4yg.gif',
+                           'https://i.imgur.com/66qAGGL.gif',
+                           'https://i.imgur.com/YhQu4Vj.gif',
+                           'https://i.imgur.com/e0rz2pk.gif',
+                           'https://i.imgur.com/Oz4g5BW.gif',
+                           'https://i.imgur.com/7Fr6oFs.gif',
+                           'https://i.imgur.com/CuerZUT.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=finger.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+
+                finger = '**{0} fingers {1}**'
+                choices = ['https://66.media.tumblr.com/3fc5e5aede749fe34fcbb07ba5ee19b8/tumblr_mxj5iizgpG1qf2a5vo1_r2_540.gif',
+                           'https://i.imgur.com/cXABGgS.gif',
+                           'https://i.imgur.com/cG2zv3f.gif',
+                           'https://i.imgur.com/EDSDtnr.gif',
+                           'https://i.imgur.com/4AroUSl.gif',
+                           'https://i.imgur.com/nhowCRo.gif',
+                           'https://i.imgur.com/qRx6mpa.gif',
+                           'https://i.imgur.com/bXf4NYh.gif',
+                           'https://i.imgur.com/wDSGz9v.gif',
+                           'https://i.imgur.com/RWAA8m5.gif',
+                           'https://i.imgur.com/3RnteI6.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=finger.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if mention_gender == 'male':
+                author = ctx.message.author.name
+                mention = member.name
+
+                finger = '**{0} fingers {1}**'
+                choices = ['https://49.media.tumblr.com/280ce1aa102df8a42d87175d8388f9bc/tumblr_nqx7t1nKF81snzlxso1_400.gif',
+                           'https://i.imgur.com/cEl2pBq.gif',
+                           'https://i.imgur.com/nAsqe56.gif',
+                           'https://i.imgur.com/vMOGT97.gif',
+                           'https://i.imgur.com/kxYKtnw.gif',
+                           'https://i.imgur.com/jCT58Kt.gif',
+                           'https://i.imgur.com/LLMUip4.gif',
+                           'https://i.imgur.com/XtwtZ5L.gif',
+                           'https://i.imgur.com/9Rkbd0D.gif',
+                           'https://i.imgur.com/Uyw9r9I.gif',
+                           'https://i.imgur.com/FiR7uEW.gif',
+                           'https://i.imgur.com/0MRK2LJ.gif',
+                           'https://i.imgur.com/RNJYpvX.gif',
+                           'https://i.imgur.com/8xBX1Nj.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=finger.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+
+                finger = '**{0} fingers {1}**'
+                choices = ['http://porngif.org/wp-content/uploads/2014/01/4579.gif',
+                           'https://i.imgur.com/mRDonle.gif',
+                           'https://i.imgur.com/NUwxaYj.gif',
+                           'https://i.imgur.com/vW0dr4m.gif',
+                           'https://i.imgur.com/ExKBNf8.gif',
+                           'https://i.imgur.com/gWW6Gbe.gif',
+                           'https://i.imgur.com/RxhB9LS.gif',
+                           'https://i.imgur.com/cjbsw51.gif',
+                           'https://i.imgur.com/B9Rv80L.gif',
+                           'https://i.imgur.com/Ijjw6Wd.gif',
+                           'https://i.imgur.com/6Dl63Go.gif',
+                           'https://i.imgur.com/soZBtKJ.gif',
+                           'https://i.imgur.com/BaE48IN.gif',
+                           'https://i.imgur.com/n1VsPZR.gif',
+                           'https://i.imgur.com/G32krR2.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=finger.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @finger.error
+    async def finger_error(self, ctx, error):
+        if isinstance(error, commands.BadArgument):
+            await ctx.send('**Oops you did something wrong**')
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You gotta mention someone!**')
+
+        raise error
 
 
 def setup(client):

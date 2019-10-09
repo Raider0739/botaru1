@@ -21,8 +21,5 @@ class Prefix(commands.Cog):
             json.dump(prefixes, f, indent=4)
 
 
-
-
-
 def setup(client):
     client.add_cog(Prefix(client))
