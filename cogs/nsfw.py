@@ -1,9 +1,6 @@
 import discord
 import random
 from discord.ext import commands
-from discord.ext.commands import Greedy
-from discord import User
-import helper
 
 
 def determineGender(mention):
@@ -1241,10 +1238,10 @@ class Nsfw(commands.Cog):
 
                 await ctx.send(embed=embed)
 
-
     @commands.command()
     @commands.is_nsfw()
     async def finger(self, ctx, member: discord.Member):
+
         author_gender = determineGender(ctx.author)
         mention_gender = determineGender(member)
 
@@ -1358,16 +1355,6 @@ class Nsfw(commands.Cog):
                 embed.set_image(url=image)
 
                 await ctx.send(embed=embed)
-
-    @finger.error
-    async def finger_error(self, ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await ctx.send('**Oops you did something wrong**')
-
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('**You gotta mention someone!**')
-
-        raise error
 
 
 def setup(client):
