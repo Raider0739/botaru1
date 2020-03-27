@@ -1,14 +1,22 @@
 import discord
 import random
 import os
+import datetime
 from discord.ext import commands
-from discord.ext.commands import has_permissions, CheckFailure
 from discord.ext.commands import Greedy
 from discord import User
+
+
 class Moderation(commands.Cog):
+
+    OK_SLOWMODE_ON = "Slowmode on :snail: ({} seconds)"
+    OK_SLOWMODE_OFF = "Slowmode off"
+    OK_SLOWMODE_CHANGED = "Slowmode set to :snail: ({} seconds)"
+    ERROR_SLOWMODE_SECONDS = "Rate limit has to be between 0-120."
 
     def __init__(self, client):
         self.client = client
+
 
     @commands.command(aliases = ['purge'])
     @commands.has_permissions(manage_messages=True)
@@ -31,23 +39,6 @@ class Moderation(commands.Cog):
             await ctx.send('You need to specify an amount')
         if isinstance(error, commands.BadArgument):
             await ctx.send('Please enter a number')
-
-        raise error
-
-    @commands.command()
-    @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason=None):
-        """Kicks the member you mention"""
-        await member.kick(reason=reason)
-        await ctx.send(f'{member.name} got kicked from server')
-
-    @kick.error
-    async def kick_error(self, ctx, error):
-
-        if isinstance(error, commands.MissingPermissions):
-            await ctx.send('Oops looks like you dont have the perm')
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('You need to mention someone')
 
         raise error
 
@@ -119,6 +110,57 @@ class Moderation(commands.Cog):
 
         raise error
 
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
+    @commands.bot_has_permissions(manage_messages=True)
+    @commands.command()
+    async def slowmode(self, ctx, seconds: int):
+
+        if seconds == 0:  # Turn Slow Mode off
+            await ctx.channel.edit(slowmode_delay=seconds,
+                                   reason="{} requested to turn off slowmode.".format(ctx.author))
+            embed = discord.Embed(description=self.OK_SLOWMODE_OFF, colour=discord.Colour.blue())
+            return await ctx.send(embed=embed)
+
+        elif 0 < seconds <= 120 and ctx.channel.slowmode_delay == 0:  # Turn Slow Mode On
+            await ctx.channel.edit(slowmode_delay=seconds,
+                                   reason="{} requested slowmode with a timer of {}".format(ctx.author, seconds))
+            embed = discord.Embed(description=self.OK_SLOWMODE_ON.format(seconds), colour=discord.Colour.blue())
+            return await ctx.send(embed=embed)
+
+        elif 0 < seconds <= 120 and ctx.channel.slowmode_delay > 0:  # Change value of Slow Mode timer
+            await ctx.channel.edit(slowmode_delay=seconds,
+                                   reason="{} requested slowmode timer be changed to {}".format(ctx.author, seconds))
+            embed = discord.Embed(description=self.OK_SLOWMODE_CHANGED.format(seconds), colour=discord.Colour.blue())
+            return await ctx.send(embed=embed)
+        elif seconds < 0 or seconds > 120:
+            raise commands.BadArgument(self.ERROR_SLOWMODE_SECONDS)
+
+    @commands.command(pass_context=True)
+    async def serverinfo(self, ctx):
+        online = 0
+        for i in ctx.guild.members:
+            if str(i.status) == 'online' or str(i.status) == 'idle' or str(i.status) == 'dnd':
+                online += 1
+
+        embed = discord.Embed(title="{}'s info".format(ctx.guild.name),
+                              description="Information on the server", color=0xcc0000)
+        embed.add_field(name="Server Name", value=ctx.guild.name, inline=True)
+        embed.add_field(name="Server ID", value=ctx.guild.id, inline=True)
+        embed.add_field(name="Members", value=str(len(ctx.guild.members)))
+        embed.add_field(name="Online Members", value=str(online))
+        embed.add_field(name="Owner", value=ctx.guild.owner, inline=True)
+        embed.add_field(name="Role Count", value=str(len(ctx.guild.roles)))
+        embed.add_field(name="Region", value=ctx.guild.region, inline=True)
+        servMade = ctx.guild.created_at
+        servMade2 = servMade.strftime("%B %d, %Y %I:%M %p")
+        embed.add_field(name="Created", value="{}".format(servMade2))
+
+        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.set_footer(text="Requested by {}".format(ctx.author))
+        await ctx.send(embed=embed)
+        print("Server Info requested")
+
+
 def setup(client):
     client.add_cog(Moderation(client))
-

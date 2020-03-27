@@ -1,15 +1,16 @@
 import discord
-import random
 import os
+import asyncio
+#import youtube_dl
+from discord.utils import get
+import shutil
 import sys
+import datetime
+import sqlite3
 import json
 import traceback
 import discord.utils
-import logging
-import time
-import datetime
-import asyncio
-from discord.ext import commands, tasks
+from discord.ext import commands, tasks, timers
 from itertools import cycle
 
 
@@ -31,44 +32,50 @@ initial_extensions = ['cogs.prefix', 'cogs.actions', 'cogs.events', 'cogs.exampl
 client = commands.Bot(command_prefix=get_prefix)
 status = cycle(['$help for commands', '$nsfw for nsfw commands', 'Still under Development'])
 owner = client.is_owner(user='464802706930794496')
-#to_write_buffers = {}
-#write_buffer_to_file_interval = 60 #seconds
+client.timer_manager = timers.TimerManager(client)
 
 client.remove_command('help')
-
-
-def determineGender(mention):
-    """mention: one of: string, class discord.Mention"""
-    gender = None
-    if type(mention) == str:
-        gender = None
-    else:
-        for role in mention.roles:
-            if role.name.lower() in ["male", "trans m->f", "mtf", "m-f", "bi-curious male", "bi male", "gay male", "straight male", "straight guy", "pan & others male", "gay couple", "straight couple", "gentlemen", "guys", "guy", "gentleman", 'gentlemen']:
-                gender = "male"
-            elif role.name.lower() in ["female", "bi-curious girl", "straight girl", "bi girl", "straight woman", "bi woman", "woman" "lesbian", "pan & others female", "lesbian couple", "ladies", "lady"]:
-                gender = "female"
-            elif role.name.lower() in ["f-m","ftm", "trans f->m", "trans", "tran","transexual", "transsexual", "other", "others"+"otherg", "trap"]:
-                gender = "trans"
-    return gender
-
-"""async def write_buffer_to_files():
-    while True:
-        for guild_id in to_write_buffers:
-            file_path = f"{sys.path[0]}\\chatlogs\\{guild_id}.txt"
-            with open(file_path, "a", encoding="utf8") as outfile:
-                outfile.write(to_write_buffers[guild_id])
-                to_write_buffers[guild_id] = ""
-        await asyncio.sleep(write_buffer_to_file_interval) # seconds """
-
+queues = {}
 
 @client.event
 async def on_ready():
+
         change_status.start()
         print('Bot is online.')
         print('Owner : Raider')
         print('--------------')
-        #await write_buffer_to_files()
+
+
+async def check_for_birthday(ctx):
+    await client.wait_until_ready()
+    now = datetime.datetime.now()
+    curmonth = now.month
+    curday = now.day
+
+    while not client.is_closed():
+        with open('birthday.json', 'r') as f:
+            var = json.load(f)
+            for member in var:
+                if member['month'] == curmonth:
+                    if member['day'] == curday:
+                        try:
+                            await client.get_user(member).send("Happy Birthday!")
+                        except:
+                            pass
+                        success = False
+                        index = 0
+                        while not success:
+                            try:
+                                await ctx.guild.channels[index].send(f"Happy birtday to <@{member}>!")
+                            except discord.Forbidden:
+                                index += 1
+                            except AttributeError:
+                                index += 1
+                            except IndexError:
+                                pass
+                            else:
+                                success = True
+        await asyncio.sleep(86400)
 
 
 @client.event
@@ -81,19 +88,11 @@ async def on_member_join(member):
         await member.add_roles(role, role1, role2, role3)
 
 
+
 @tasks.loop(seconds=30)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
-#this was a test command!!
-""""@client.command()
-async def testembed(ctx):
-    embed = discord.Embed(title='Title', description='Description',colour=discord.Color.red(), url='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif')
-    embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
-    embed.set_footer(text='Footer', icon_url=ctx.author.avatar_url)
-    embed.set_image(url='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif')
-    embed.set_thumbnail(url='https://pbs.twimg.com/profile_images/875749462957670400/T0lwiBK8.jpg')
-    await ctx.send(embed=embed)"""
 
 @client.command()
 async def userinfo(ctx, member: discord.Member = None):
@@ -123,7 +122,6 @@ async def userinfo(ctx, member: discord.Member = None):
     await ctx.send(embed=embed)
 
 
-
 @client.command(aliases=['av'])
 async def avatar(ctx, *, member: discord.Member = None):
     """
@@ -139,13 +137,14 @@ async def avatar(ctx, *, member: discord.Member = None):
     await ctx.send(embed=embed)
     #await ctx.send(f"The avatar of {member.name} is: {member.avatar_url_as(static_format='png')}")
 
+
 @client.command()
 async def help(ctx, user: discord.User=None):
     if not user:
         user = ctx.author
 
     em = discord.Embed(colour=discord.Colour.blue())
-    em.set_author(name='Help')
+    em.set_author(name='Help 1')
     em.add_field(name='avatar(av)', value='Shows a members avatar.', inline=False)
     em.add_field(name='userinfo', value='Shows the user info', inline=False)
     em.add_field(name='morning(gm)', value='Morning gifs', inline=False)
@@ -160,8 +159,10 @@ async def help(ctx, user: discord.User=None):
     em.add_field(name='fistbump', value='Bumps fist with the member you mention', inline=False)
     em.add_field(name='bunny', value='Sends cute bunny gifs', inline=False)
     em.add_field(name='punch', value='Punches the member you mention', inline=False)
+    em.add_field(name='popcorn', value='Eating popcorn alone or with someone', inline=False)
+    em.add_field(name='goodjob(gj)', value='Good job gifs', inline=False)
     emb = discord.Embed(colour=discord.Colour.blue())
-    emb.set_author(name='Help 1')
+    emb.set_author(name='Help 2')
     emb.add_field(name='gay', value='Calls the person you mention gay(only for fun purposes)', inline=False)
     emb.add_field(name='nap', value='Time to take a nap zzZ..', inline=False)
     emb.add_field(name='holdhand', value='Holds the hand of member you mention', inline=False)
@@ -175,10 +176,91 @@ async def help(ctx, user: discord.User=None):
     emb.add_field(name='fu', value='Says fuck you to member you mention', inline=False)
     emb.add_field(name='boop', value='Boops the member you mention', inline=False)
     emb.add_field(name='grouphug', value='Group hug command you can mention multiple members', inline=False)
-
+    emb.add_field(name='feed', value='Feeds the member you mention', inline=False)
+    emb.add_field(name='suplex', value='Suplex the member you mention', inline=False)
+    emb.add_field(name='cat', value='Sends random cat pics', inline=False)
     await user.send(embed=em)
     await user.send(embed=emb)
     await ctx.send('**Sending info in DMs...($nsfw for nsfw command list)**')
+
+
+@client.command()
+async def setbirthday(ctx):
+    member = ctx.message.author.id
+    await ctx.send("What is your birthday? Please use MM/DD format.")
+
+    def check(user):
+        return user == ctx.message.author and user == ctx.message.channel
+    msg = await client.wait_for('message', check=check)
+    try:
+        list = msg.split("/")
+        if list[0] > 13 or list[0] < 1:
+            await ctx.send("Invalid date.")
+            await ctx.send("Aborting...")
+            return
+        else:
+            pass
+
+        if list[0] in (1, 3, 5, 7, 8, 10, 12):
+            if list[1] > 31 or list[1] < 1:
+                await ctx.send("Invalid date.")
+                await ctx.send("Aborting...")
+                return
+            else:
+                pass
+
+        elif list[0] in (4, 6, 9, 11,):
+            if list[1] > 30 or list[1] < 1:
+                await ctx.send("Invalid date.")
+                await ctx.send("Aborting...")
+                return
+            else:
+                pass
+
+        elif list[0] == 2:
+            if list[1] > 29 or list[1] < 1:
+                await ctx.send("Invalid date.")
+                await ctx.send("Aborting...")
+                return
+            else:
+                pass
+
+        else:
+            await ctx.send("Invalid date.")
+            await ctx.send("Aborting...")
+            return
+
+    except:
+        await ctx.send("Invalid date.")
+        await ctx.send("Aborting...")
+        return
+
+    list = msg.split("/")
+    month = list[0]
+    day = list[1]
+
+    with open(r'C:\Users\utku1utku\Desktop\Botaru Project\birthday.json', 'w') as f:
+        var = json.load(f)
+        var[member] = {'month': month, 'day': day}
+        json.dump(var, f, indent=4)
+
+@client.command()
+async def remind(ctx, time, *, text):
+    date = datetime.datetime(*map(int, time.split("/")))
+
+    client.timer_manager.create_timer("reminder", date, args=(ctx.channel.id, ctx.author.id, text))
+
+@client.event
+async def on_reminder(channel_id, author_id, text):
+    channel = client.get_channel(channel_id)
+
+    await channel.send("Hey <@{0}>, remember to: {1}".format(author_id, text))
+
+
+
+@client.command()
+async def invite(ctx):
+    await ctx.send('https://discordapp.com/api/oauth2/authorize?client_id=489808074929078272&permissions=8&scope=bot')
 
 
 @client.command()
@@ -194,10 +276,6 @@ async def reload(ctx, initial_extensions):
         raise e
 
 
-"""for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')"""
-
 if __name__ == '__main__':
     for extension in initial_extensions:
         try:
@@ -207,4 +285,4 @@ if __name__ == '__main__':
             traceback.print_exc()
 
 
-client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XZJKsg.jLjVHP6CRE1Gz7BIEsYhTiyqWEA')
+client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XdSLWQ.Fb9Gw3NBA2p5ovgwGs7FDHmd7uc')

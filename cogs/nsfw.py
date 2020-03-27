@@ -1,6 +1,8 @@
 import discord
 import random
 from discord.ext import commands
+from discord.ext.commands import Greedy
+from discord import Member
 
 
 def determineGender(mention):
@@ -41,9 +43,14 @@ class Nsfw(commands.Cog):
         em.add_field(name='tits(tiddy,tiddies)', value='Sends some tits in chat', inline=False)
         em.add_field(name='tease', value='Teases the member you mention', inline=False)
         em.add_field(name='finger', value='Fingers the member you mention', inline=False)
+        em.add_field(name='booty(ass)', value='Random booty gifs', inline=False)
+        em.add_field(name='bite', value='Bites the member you mention', inline=False)
+        em.add_field(name='massage', value='Massages the member you mention', inline=False)
+        em.add_field(name='cum', value='Cums/Squirts on the member you mention', inline=False)
+        em.add_field(name='collar', value='Collars the member you mention', inline=False)
         em.set_footer(text='Channel must be NSFW to use the commands!')
-        await user.send(embed=em)
         await ctx.send('**Sending a list of NSFW commands in your DMs**')
+        await user.send(embed=em)
 
     @commands.command(aliases=['fucks'])
     @commands.is_nsfw()
@@ -104,17 +111,32 @@ class Nsfw(commands.Cog):
                            'https://i.imgur.com/zpcZ3TS.gif',
                            'https://i.imgur.com/Kcf2GdI.gif',
                            'https://i.imgur.com/KkVO095.gif',
-                           'https://i.imgur.com/ZYGTQlX.gif'
+                           'https://i.imgur.com/ZYGTQlX.gif',
                            'https://www.youpeg.com/wp-content/uploads/2019/02/gallery-the-worlds-hottest-gianna-dior-xxx-porn-gif-gallery-syber-pussy-xxx-forums-porn-videos-x-1550160633c8p4l.gif',
                            'https://hotporngifs.eu/wp-content/uploads/2018/07/tumblr_ovlpmn6KtD1tduf00o1_400.gif',
                            'https://hotporngifs.eu/wp-content/uploads/2018/05/tumblr_otj1dxn4yq1sg1lgao1_500.gif',
                            'https://hotporngifs.eu/wp-content/uploads/2018/12/tumblr_pgk4v0rSGC1rat4opo1_500-450x635.gif',
-                           'http://i.imgur.com/DDso5m8.gif'
+                           'http://i.imgur.com/DDso5m8.gif',
                            'http://www.reuni.eu/image/417862.gif',
                            'https://24.media.tumblr.com/073577e9b34d44bc2a13bf534ebcca38/tumblr_mipo08ImUU1qbh1xjo1_500.gif',
                            'https://sluterest.com/wp-content/uploads/2015/06/juicy-fuck-office.gif',
                            'http://www.coaching-et-formation-coaching.eu/image/269c5c7998a9443f1310cd063783b55c.gif',
-                           'http://huntingdonshirecricket.com/images/223199.gif']
+                           'http://huntingdonshirecricket.com/images/223199.gif',
+                           'https://i.imgur.com/B2HlgWs.gif',
+                           'https://i.imgur.com/9FkZsAD.gif',
+                           'https://i.imgur.com/pEts2Qq.gif',
+                           'https://i.imgur.com/gFLjKK5.gif',
+                           'https://i.imgur.com/0NfK8UE.gif',
+                           'https://i.imgur.com/1L6Cbmt.gif',
+                           'https://i.imgur.com/2xaMyW3.gif',
+                           'https://i.imgur.com/x0anhio.gif',
+                           'https://i.imgur.com/e2KWlA5.gif',
+                           'https://i.imgur.com/NfXSD3F.gif',
+                           'https://i.imgur.com/Ldsdjld.gif',
+                           'https://i.imgur.com/oRYeQ3h.gif',
+                           'https://i.imgur.com/0rbmTGv.gif',
+                           'https://i.imgur.com/KRHMCLZ.gif',
+                           ]
 
 
             image = random.choice(choices)
@@ -184,7 +206,11 @@ class Nsfw(commands.Cog):
                            'https://i.imgur.com/JdJjVw2.gif',
                            'https://i.imgur.com/62CgFoM.gif',
                            'https://i.imgur.com/zbiCI2n.gif',
-                           'https://i.imgur.com/TFFTXLA.gif']
+                           'https://i.imgur.com/TFFTXLA.gif',
+                           'https://i.imgur.com/z1CDDXw.gif',
+                           'https://i.imgur.com/QEr59Mw.gif',
+                           'https://i.imgur.com/nYrqMsT.gif',
+                           'https://i.imgur.com/B7mOdCh.gif']
 
                 image = random.choice(choices)
 
@@ -197,8 +223,10 @@ class Nsfw(commands.Cog):
     async def fuck_error (self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['spanks'])
     @commands.is_nsfw()
@@ -236,16 +264,17 @@ class Nsfw(commands.Cog):
 
                 spank = '**{0} spanks {1}s booty**'
 
-                choices = ['https://images.sex.com/images/pinporn/2018/12/06/300/20313530.gif',
-                           'https://78.media.tumblr.com/0cd26d3ab04e6cfbaa91f2c8c47bd1bd/tumblr_oxre9dg03m1w48g7zo1_500.gif',
-                           'https://images.sex.com/images/pinporn/2016/06/20/620/15967749.gif',
-                           'http://spankgifs.com/wp-content/uploads/2015/06/spanked.gif',
-                           'https://images.sex.com/images/pinporn/2015/05/20/300/12005830.gif',
-                           'https://i.pinimg.com/originals/e6/8d/7c/e68d7c7efa0e06b580b24ffaece80777.gif',
-                           'https://images.sex.com/images/pinporn/2018/03/19/300/19265241.gif',
-                           'https://3.bp.blogspot.com/-Jyfs29ETpAE/W-DSLBKXklI/AAAAAAAAwVs/75JH6OWJU_4hcRpGLzwBa-0Q_J0RJjeiQCLcBGAs/s640/000000.gif',
-                           'http://spankgifs.com/wp-content/uploads/2019/07/Cunt-pain-reminds-you-of-your-place.gif',
-                           'http://cutiepiessexyspankings.com/wp-content/uploads/2019/06/SPANKING-GIF-3.gif']
+                choices = ['https://i.imgur.com/rLSCY75.gif',
+                           'https://i.imgur.com/pTtxvfK.gif',
+                           'https://i.imgur.com/sHZFIgH.gif',
+                           'https://i.imgur.com/jNTHiJs.gif',
+                           'https://i.imgur.com/drzE8fi.gif',
+                           'https://i.imgur.com/NbXKhlI.gif',
+                           'https://i.imgur.com/ijPhdcp.gif',
+                           'https://i.imgur.com/Ukck5NT.gif',
+                           'https://i.imgur.com/wSfmq1k.gif',
+                           'https://i.imgur.com/fQfIAFw.gif',
+                           'https://i.imgur.com/Xgvjcea.gif']
 
                 image = random.choice(choices)
 
@@ -260,15 +289,9 @@ class Nsfw(commands.Cog):
 
                 spank = '**{0} spanks {1}s booty**'
 
-                choices = ['https://images.sex.com/images/pinporn/2018/01/15/300/18950853.gif',
-                           'https://images.sex.com/images/pinporn/2015/07/25/300/13064053.gif',
-                           'https://images.sex.com/images/pinporn/2019/02/08/300/20661173.gif',
-                           'https://images.sex.com/images/pinporn/2015/09/10/300/13752941.gif',
-                           'https://images.sex.com/images/pinporn/2017/11/15/300/18657851.gif',
-                           'http://spankgifs.com/wp-content/uploads/2017/03/lesbian-couple-enjoy-spanking-over-the-couch.gif',
+                choices = ['http://spankgifs.com/wp-content/uploads/2017/03/lesbian-couple-enjoy-spanking-over-the-couch.gif',
                            'http://spankgifs.com/wp-content/uploads/2018/01/lesbian-spanking-games.gif',
                            'http://24.media.tumblr.com/6e14e875fd593012eb2b9828bbad382c/tumblr_mk07urmcXQ1rjhn1to1_500.gif',
-                           'https://images.sex.com/images/pinporn/2019/06/15/300/21326686.gif',
                            'http://spankgifs.com/wp-content/uploads/2016/08/fem-to-fem-hairbrush-spanking.gif',
                            'https://juicygif.com/albums/userpics/2017y/12/16/1/1/small_8516-hot-lesbian-spanking-action-d.gif',
                            'http://www.akceleratorbiznesu.eu/image/c6898511e364d53a4fbb5fbf815fa5dc.gif']
@@ -306,8 +329,10 @@ class Nsfw(commands.Cog):
 
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['sucks'])
     @commands.is_nsfw()
@@ -432,8 +457,10 @@ class Nsfw(commands.Cog):
     async def suck_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command()
     @commands.is_nsfw()
@@ -464,7 +491,8 @@ class Nsfw(commands.Cog):
                            'https://www.tudelicias.net/wp-content/uploads/2017/03/gifs-de-sexo-anal-cacete-grande-e-grosso-02.gif',
                            'http://bestsexgif.com/wp-content/uploads/2015/02/Mischa-Brooks-anal-sex-gif.gif',
                            'https://www.pornosexgif.org/wp-content/uploads/2015/12/anal-720p-gif.gif',
-                           'http://amateurhomeporn.net/wp-content/uploads/2012/08/photo-Amateur-Anal-Gif-871075187.gif']
+                           'http://amateurhomeporn.net/wp-content/uploads/2012/08/photo-Amateur-Anal-Gif-871075187.gif',
+                           'https://cdn.discordapp.com/attachments/632301566438932498/632819515419394050/image0-1.gif']
 
                 image = random.choice(choices)
 
@@ -571,8 +599,10 @@ class Nsfw(commands.Cog):
     async def anal_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['doms', 'dominate', 'dominates'])
     @commands.is_nsfw()
@@ -683,8 +713,10 @@ class Nsfw(commands.Cog):
     async def dom_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['69'])
     @commands.is_nsfw()
@@ -804,155 +836,307 @@ class Nsfw(commands.Cog):
     async def sixtynine_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['cream'])
     @commands.is_nsfw()
     async def creampie(self, ctx, member: discord.Member):
         """Creampie command"""
-        author_gender = determineGender(ctx.author)
-        mention_gender = determineGender(member)
+        if ctx.channel.id == 660528011249975330:
+            role = discord.utils.get(ctx.guild.roles, name='Nitro Booster')
+            if role in ctx.author.roles:
+                author_gender = determineGender(ctx.author)
+                mention_gender = determineGender(member)
 
-        if author_gender == 'male':
-            if mention_gender == 'female':
-                author = ctx.message.author.name
-                mention = member.name
+                if author_gender == 'male':
+                    if mention_gender == 'female':
+                        author = ctx.message.author.name
+                        mention = member.name
 
-                sixtynine = '**{0} creampies {1}**'
+                        sixtynine = '**{0} creampies {1}**'
 
-                choices = ['https://i.imgur.com/f92tc1G.gif',
-                           'https://i.imgur.com/wNOz1Kq.gif',
-                           'https://i.imgur.com/zCht4bl.gif',
-                           'https://i.imgur.com/4Fu1tBC.gif',
-                           'https://i.imgur.com/3pqyJ83.gif',
-                           'https://i.imgur.com/JjSbfio.gif',
-                           'https://i.imgur.com/JODYD5A.gif',
-                           'https://i.imgur.com/V9bfKyJ.gif',
-                           'https://i.imgur.com/ML2ZNkp.gif',
-                           'https://i.imgur.com/KL5Kzz5.gif',
-                           'https://i.imgur.com/eJFjund.gif',
-                           'https://i.imgur.com/rUSkgYw.gif',
-                           'https://i.imgur.com/6UrAIhC.gif',
-                           'https://i.imgur.com/CgKpQz7.gif',
-                           'https://i.imgur.com/Lmr3cv2.gif',
-                           'https://i.imgur.com/SsBqRLT.gif',
-                           'https://i.imgur.com/F8YuNs4.gif',
-                           'https://i.imgur.com/L2TtXFU.gif',
-                           'https://i.imgur.com/Nnahwh2.gif',
-                           'https://i.imgur.com/Hh3sAA0.gif',
-                           'https://i.imgur.com/u4yxCmx.gif',
-                           'https://i.imgur.com/oB9Swdh.gif',
-                           'https://i.imgur.com/SsNBok3.gif',
-                           'https://i.imgur.com/cH14eNJ.gif',
-                           'https://i.imgur.com/2osxNjV.gif',
-                           'https://i.imgur.com/Zu48qr9.gif',
-                           'https://i.imgur.com/hzQK4DT.gif',
-                           'https://i.imgur.com/4hIs3lV.gif',
-                           'https://i.imgur.com/DLCQZ1t.gif',
-                           'https://i.imgur.com/WStdajj.gif']
-                image = random.choice(choices)
+                        choices = ['https://i.imgur.com/f92tc1G.gif',
+                                   'https://i.imgur.com/wNOz1Kq.gif',
+                                   'https://i.imgur.com/zCht4bl.gif',
+                                   'https://i.imgur.com/4Fu1tBC.gif',
+                                   'https://i.imgur.com/3pqyJ83.gif',
+                                   'https://i.imgur.com/JjSbfio.gif',
+                                   'https://i.imgur.com/JODYD5A.gif',
+                                   'https://i.imgur.com/V9bfKyJ.gif',
+                                   'https://i.imgur.com/ML2ZNkp.gif',
+                                   'https://i.imgur.com/KL5Kzz5.gif',
+                                   'https://i.imgur.com/eJFjund.gif',
+                                   'https://i.imgur.com/rUSkgYw.gif',
+                                   'https://i.imgur.com/6UrAIhC.gif',
+                                   'https://i.imgur.com/CgKpQz7.gif',
+                                   'https://i.imgur.com/Lmr3cv2.gif',
+                                   'https://i.imgur.com/SsBqRLT.gif',
+                                   'https://i.imgur.com/F8YuNs4.gif',
+                                   'https://i.imgur.com/L2TtXFU.gif',
+                                   'https://i.imgur.com/Nnahwh2.gif',
+                                   'https://i.imgur.com/Hh3sAA0.gif',
+                                   'https://i.imgur.com/u4yxCmx.gif',
+                                   'https://i.imgur.com/oB9Swdh.gif',
+                                   'https://i.imgur.com/SsNBok3.gif',
+                                   'https://i.imgur.com/cH14eNJ.gif',
+                                   'https://i.imgur.com/2osxNjV.gif',
+                                   'https://i.imgur.com/Zu48qr9.gif',
+                                   'https://i.imgur.com/hzQK4DT.gif',
+                                   'https://i.imgur.com/4hIs3lV.gif',
+                                   'https://i.imgur.com/DLCQZ1t.gif',
+                                   'https://i.imgur.com/WStdajj.gif']
+                        image = random.choice(choices)
 
-                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
-                embed.set_image(url=image)
+                        embed = discord.Embed(description=sixtynine.format(author, mention),
+                                              colour=discord.Colour.blue())
+                        embed.set_image(url=image)
 
-                await ctx.send(embed=embed)
+                        await ctx.send(embed=embed)
+
+                    else:
+                        author = ctx.message.author.name
+                        mention = member.name
+
+                        sixtynine = '**{0} creampies {1}**'
+
+                        choices = ['https://i.imgur.com/QzVs0zA.gif',
+                                   'https://i.imgur.com/b6uSmBw.gif',
+                                   'https://i.imgur.com/P1jJL5Z.gif',
+                                   'https://i.imgur.com/vgS6Guw.gif',
+                                   'https://i.imgur.com/iBSXKjT.gif',
+                                   'https://i.imgur.com/qqReaY3.gif',
+                                   'https://i.imgur.com/GOwpKBc.gif',
+                                   'https://i.imgur.com/JsBYwLP.gif',
+                                   'https://i.imgur.com/xcrOGQC.gif',
+                                   'https://i.imgur.com/BazoUno.gif',
+                                   'https://i.imgur.com/vhASHVp.gif',
+                                   'https://i.imgur.com/Zphc2Yn.gif',
+                                   'https://i.imgur.com/hC1bfXm.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=sixtynine.format(author, mention),
+                                              colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                elif author_gender == 'female':
+                    if mention_gender == 'male':
+                        author = ctx.message.author.name
+                        mention = member.name
+
+                        sixtynine = '**{0} gets creampie from {1}**'
+
+                        choices = ['https://i.imgur.com/f92tc1G.gif',
+                                   'https://i.imgur.com/wNOz1Kq.gif',
+                                   'https://i.imgur.com/zCht4bl.gif',
+                                   'https://i.imgur.com/4Fu1tBC.gif',
+                                   'https://i.imgur.com/3pqyJ83.gif',
+                                   'https://i.imgur.com/JjSbfio.gif',
+                                   'https://i.imgur.com/JODYD5A.gif',
+                                   'https://i.imgur.com/V9bfKyJ.gif',
+                                   'https://i.imgur.com/ML2ZNkp.gif',
+                                   'https://i.imgur.com/KL5Kzz5.gif',
+                                   'https://i.imgur.com/eJFjund.gif',
+                                   'https://i.imgur.com/rUSkgYw.gif',
+                                   'https://i.imgur.com/6UrAIhC.gif',
+                                   'https://i.imgur.com/CgKpQz7.gif',
+                                   'https://i.imgur.com/Lmr3cv2.gif',
+                                   'https://i.imgur.com/SsBqRLT.gif',
+                                   'https://i.imgur.com/F8YuNs4.gif',
+                                   'https://i.imgur.com/L2TtXFU.gif',
+                                   'https://i.imgur.com/Nnahwh2.gif',
+                                   'https://i.imgur.com/Hh3sAA0.gif',
+                                   'https://i.imgur.com/u4yxCmx.gif',
+                                   'https://i.imgur.com/oB9Swdh.gif',
+                                   'https://i.imgur.com/SsNBok3.gif',
+                                   'https://i.imgur.com/cH14eNJ.gif',
+                                   'https://i.imgur.com/2osxNjV.gif',
+                                   'https://i.imgur.com/Zu48qr9.gif',
+                                   'https://i.imgur.com/hzQK4DT.gif',
+                                   'https://i.imgur.com/4hIs3lV.gif',
+                                   'https://i.imgur.com/DLCQZ1t.gif',
+                                   'https://i.imgur.com/WStdajj.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=sixtynine.format(author, mention),
+                                              colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                    else:
+                        author = ctx.message.author.name
+                        mention = member.name
+
+                        sixtynine = '**{0} creampies {1}**'
+
+                        choices = [
+                            'http://porngifmag.com/content/2016/08/agnes-strapon-creampie-after-the-breakfast_008.gif',
+                            'https://barris4congress.com/img/lick-cum-from-ass-3.gif',
+                            'https://i.imgur.com/7NMAMrk.gif',
+                            'https://i.imgur.com/4zAQA6c.gif',
+                            'https://i.imgur.com/xHFX1vQ.gif',
+                            'https://i.imgur.com/JZO7n1B.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=sixtynine.format(author, mention),
+                                              colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
 
             else:
-                author = ctx.message.author.name
-                mention = member.name
+                await ctx.send('**You need to boost the server to use this command in general chat!**')
+        else:
+            author_gender = determineGender(ctx.author)
+            mention_gender = determineGender(member)
 
-                sixtynine = '**{0} creampies {1}**'
+            if author_gender == 'male':
+                if mention_gender == 'female':
+                    author = ctx.message.author.name
+                    mention = member.name
 
-                choices = ['https://i.imgur.com/QzVs0zA.gif',
-                           'https://i.imgur.com/b6uSmBw.gif',
-                           'https://i.imgur.com/P1jJL5Z.gif',
-                           'https://i.imgur.com/vgS6Guw.gif',
-                           'https://i.imgur.com/iBSXKjT.gif',
-                           'https://i.imgur.com/qqReaY3.gif',
-                           'https://i.imgur.com/GOwpKBc.gif',
-                           'https://i.imgur.com/JsBYwLP.gif',
-                           'https://i.imgur.com/xcrOGQC.gif',
-                           'https://i.imgur.com/BazoUno.gif',
-                           'https://i.imgur.com/vhASHVp.gif',
-                           'https://i.imgur.com/Zphc2Yn.gif',
-                           'https://i.imgur.com/hC1bfXm.gif']
-                image = random.choice(choices)
+                    sixtynine = '**{0} creampies {1}**'
 
-                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
-                embed.set_image(url=image)
+                    choices = ['https://i.imgur.com/f92tc1G.gif',
+                               'https://i.imgur.com/wNOz1Kq.gif',
+                               'https://i.imgur.com/zCht4bl.gif',
+                               'https://i.imgur.com/4Fu1tBC.gif',
+                               'https://i.imgur.com/3pqyJ83.gif',
+                               'https://i.imgur.com/JjSbfio.gif',
+                               'https://i.imgur.com/JODYD5A.gif',
+                               'https://i.imgur.com/V9bfKyJ.gif',
+                               'https://i.imgur.com/ML2ZNkp.gif',
+                               'https://i.imgur.com/KL5Kzz5.gif',
+                               'https://i.imgur.com/eJFjund.gif',
+                               'https://i.imgur.com/rUSkgYw.gif',
+                               'https://i.imgur.com/6UrAIhC.gif',
+                               'https://i.imgur.com/CgKpQz7.gif',
+                               'https://i.imgur.com/Lmr3cv2.gif',
+                               'https://i.imgur.com/SsBqRLT.gif',
+                               'https://i.imgur.com/F8YuNs4.gif',
+                               'https://i.imgur.com/L2TtXFU.gif',
+                               'https://i.imgur.com/Nnahwh2.gif',
+                               'https://i.imgur.com/Hh3sAA0.gif',
+                               'https://i.imgur.com/u4yxCmx.gif',
+                               'https://i.imgur.com/oB9Swdh.gif',
+                               'https://i.imgur.com/SsNBok3.gif',
+                               'https://i.imgur.com/cH14eNJ.gif',
+                               'https://i.imgur.com/2osxNjV.gif',
+                               'https://i.imgur.com/Zu48qr9.gif',
+                               'https://i.imgur.com/hzQK4DT.gif',
+                               'https://i.imgur.com/4hIs3lV.gif',
+                               'https://i.imgur.com/DLCQZ1t.gif',
+                               'https://i.imgur.com/WStdajj.gif']
+                    image = random.choice(choices)
 
-                await ctx.send(embed=embed)
+                    embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
 
-        elif author_gender == 'female':
-            if mention_gender == 'male':
-                author = ctx.message.author.name
-                mention = member.name
+                    await ctx.send(embed=embed)
 
-                sixtynine = '**{0} gets creampie from {1}**'
+                else:
+                    author = ctx.message.author.name
+                    mention = member.name
 
-                choices = ['https://i.imgur.com/f92tc1G.gif',
-                           'https://i.imgur.com/wNOz1Kq.gif',
-                           'https://i.imgur.com/zCht4bl.gif',
-                           'https://i.imgur.com/4Fu1tBC.gif',
-                           'https://i.imgur.com/3pqyJ83.gif',
-                           'https://i.imgur.com/JjSbfio.gif',
-                           'https://i.imgur.com/JODYD5A.gif',
-                           'https://i.imgur.com/V9bfKyJ.gif',
-                           'https://i.imgur.com/ML2ZNkp.gif',
-                           'https://i.imgur.com/KL5Kzz5.gif',
-                           'https://i.imgur.com/eJFjund.gif',
-                           'https://i.imgur.com/rUSkgYw.gif',
-                           'https://i.imgur.com/6UrAIhC.gif',
-                           'https://i.imgur.com/CgKpQz7.gif',
-                           'https://i.imgur.com/Lmr3cv2.gif',
-                           'https://i.imgur.com/SsBqRLT.gif',
-                           'https://i.imgur.com/F8YuNs4.gif',
-                           'https://i.imgur.com/L2TtXFU.gif',
-                           'https://i.imgur.com/Nnahwh2.gif',
-                           'https://i.imgur.com/Hh3sAA0.gif',
-                           'https://i.imgur.com/u4yxCmx.gif',
-                           'https://i.imgur.com/oB9Swdh.gif',
-                           'https://i.imgur.com/SsNBok3.gif',
-                           'https://i.imgur.com/cH14eNJ.gif',
-                           'https://i.imgur.com/2osxNjV.gif',
-                           'https://i.imgur.com/Zu48qr9.gif',
-                           'https://i.imgur.com/hzQK4DT.gif',
-                           'https://i.imgur.com/4hIs3lV.gif',
-                           'https://i.imgur.com/DLCQZ1t.gif',
-                           'https://i.imgur.com/WStdajj.gif']
-                image = random.choice(choices)
+                    sixtynine = '**{0} creampies {1}**'
 
-                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
-                embed.set_image(url=image)
+                    choices = ['https://i.imgur.com/QzVs0zA.gif',
+                               'https://i.imgur.com/b6uSmBw.gif',
+                               'https://i.imgur.com/P1jJL5Z.gif',
+                               'https://i.imgur.com/vgS6Guw.gif',
+                               'https://i.imgur.com/iBSXKjT.gif',
+                               'https://i.imgur.com/qqReaY3.gif',
+                               'https://i.imgur.com/GOwpKBc.gif',
+                               'https://i.imgur.com/JsBYwLP.gif',
+                               'https://i.imgur.com/xcrOGQC.gif',
+                               'https://i.imgur.com/BazoUno.gif',
+                               'https://i.imgur.com/vhASHVp.gif',
+                               'https://i.imgur.com/Zphc2Yn.gif',
+                               'https://i.imgur.com/hC1bfXm.gif']
+                    image = random.choice(choices)
 
-                await ctx.send(embed=embed)
+                    embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
 
-            else:
-                author = ctx.message.author.name
-                mention = member.name
+                    await ctx.send(embed=embed)
 
-                sixtynine = '**{0} creampies {1}**'
+            elif author_gender == 'female':
+                if mention_gender == 'male':
+                    author = ctx.message.author.name
+                    mention = member.name
 
-                choices = ['http://porngifmag.com/content/2016/08/agnes-strapon-creampie-after-the-breakfast_008.gif',
-                           'https://barris4congress.com/img/lick-cum-from-ass-3.gif',
-                           'https://i.imgur.com/7NMAMrk.gif',
-                           'https://i.imgur.com/4zAQA6c.gif',
-                           'https://i.imgur.com/xHFX1vQ.gif',
-                           'https://i.imgur.com/JZO7n1B.gif']
-                image = random.choice(choices)
+                    sixtynine = '**{0} gets creampie from {1}**'
 
-                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
-                embed.set_image(url=image)
+                    choices = ['https://i.imgur.com/f92tc1G.gif',
+                               'https://i.imgur.com/wNOz1Kq.gif',
+                               'https://i.imgur.com/zCht4bl.gif',
+                               'https://i.imgur.com/4Fu1tBC.gif',
+                               'https://i.imgur.com/3pqyJ83.gif',
+                               'https://i.imgur.com/JjSbfio.gif',
+                               'https://i.imgur.com/JODYD5A.gif',
+                               'https://i.imgur.com/V9bfKyJ.gif',
+                               'https://i.imgur.com/ML2ZNkp.gif',
+                               'https://i.imgur.com/KL5Kzz5.gif',
+                               'https://i.imgur.com/eJFjund.gif',
+                               'https://i.imgur.com/rUSkgYw.gif',
+                               'https://i.imgur.com/6UrAIhC.gif',
+                               'https://i.imgur.com/CgKpQz7.gif',
+                               'https://i.imgur.com/Lmr3cv2.gif',
+                               'https://i.imgur.com/SsBqRLT.gif',
+                               'https://i.imgur.com/F8YuNs4.gif',
+                               'https://i.imgur.com/L2TtXFU.gif',
+                               'https://i.imgur.com/Nnahwh2.gif',
+                               'https://i.imgur.com/Hh3sAA0.gif',
+                               'https://i.imgur.com/u4yxCmx.gif',
+                               'https://i.imgur.com/oB9Swdh.gif',
+                               'https://i.imgur.com/SsNBok3.gif',
+                               'https://i.imgur.com/cH14eNJ.gif',
+                               'https://i.imgur.com/2osxNjV.gif',
+                               'https://i.imgur.com/Zu48qr9.gif',
+                               'https://i.imgur.com/hzQK4DT.gif',
+                               'https://i.imgur.com/4hIs3lV.gif',
+                               'https://i.imgur.com/DLCQZ1t.gif',
+                               'https://i.imgur.com/WStdajj.gif']
+                    image = random.choice(choices)
 
-                await ctx.send(embed=embed)
+                    embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
+
+                else:
+                    author = ctx.message.author.name
+                    mention = member.name
+
+                    sixtynine = '**{0} creampies {1}**'
+
+                    choices = [
+                        'http://porngifmag.com/content/2016/08/agnes-strapon-creampie-after-the-breakfast_008.gif',
+                        'https://barris4congress.com/img/lick-cum-from-ass-3.gif',
+                        'https://i.imgur.com/7NMAMrk.gif',
+                        'https://i.imgur.com/4zAQA6c.gif',
+                        'https://i.imgur.com/xHFX1vQ.gif',
+                        'https://i.imgur.com/JZO7n1B.gif']
+                    image = random.choice(choices)
+
+                    embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
 
     @creampie.error
     async def creampie_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['licks'])
     @commands.is_nsfw()
@@ -1082,13 +1266,15 @@ class Nsfw(commands.Cog):
     async def lick_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
-            raise error
+        raise error
 
     @commands.command(aliases=['tiddies', 'tiddy'])
     @commands.is_nsfw()
     async def tits(self, ctx):
-        tits = '**Here is some tiddies for ya**'
+        tits = '**Here are some tiddies for ya**'
 
         choices = ['https://cdn.discordapp.com/attachments/613870605489537097/629860411155677204/image0.gif',
                    'https://cdn.discordapp.com/attachments/613870605489537097/629860257698414603/image1.gif',
@@ -1237,6 +1423,15 @@ class Nsfw(commands.Cog):
                 embed.set_image(url=image)
 
                 await ctx.send(embed=embed)
+        
+    @tease.error
+    async def tease_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+
+        raise error
 
     @commands.command()
     @commands.is_nsfw()
@@ -1355,9 +1550,900 @@ class Nsfw(commands.Cog):
                 embed.set_image(url=image)
 
                 await ctx.send(embed=embed)
+            
+    @finger.error
+    async def finger_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('You need to mention someone!')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
 
+
+        raise error
+
+    @commands.command(aliases=['ass'])
+    @commands.is_nsfw()
+    async def booty(self, ctx):
+        ass = '**Here is some booty for you**'
+
+        choices = ['https://i.imgur.com/RqpvXVg.gif',
+                    'https://i.imgur.com/ZJ5RMrm.gif',
+                    'https://i.imgur.com/QrFimJF.gif',
+                    'https://i.imgur.com/O3l8RaU.gif',
+                    'https://i.imgur.com/TF6NJl4.gif',
+                    'https://i.imgur.com/15xXYVZ.gif',
+                    'https://i.imgur.com/cex2lVO.gif',
+                    'https://i.imgur.com/PqM7kpy.gif',
+                    'https://i.imgur.com/1lg0Xuv.gif',
+                    'https://i.imgur.com/kRTBnEp.gif',
+                    'https://i.imgur.com/9lYd8Q4.gif',
+                    'https://i.imgur.com/AnojR9N.gif',
+                    'https://i.imgur.com/0Xv27fj.gif',
+                    'https://i.imgur.com/I0lZk8K.gif',
+                    'https://i.imgur.com/1ay2m64.gif',
+                    'https://i.imgur.com/sWb0SDl.gif',
+                    'https://i.imgur.com/aOlf9Am.gif',
+                    'https://i.imgur.com/2G9KEaw.gif',
+                    'https://i.imgur.com/yxFn4if.gif',
+                    'https://i.imgur.com/lUTdexl.gif',
+                    'https://i.imgur.com/ahEayLe.gif',
+                    'https://i.imgur.com/IpFoDQw.gif',
+                    'https://i.imgur.com/h0l8BZL.gif',
+                    'https://i.imgur.com/xG99n90.gif',
+                    'https://i.imgur.com/rZ6YQil.gif',
+                    'https://i.imgur.com/VX4fItZ.gif',
+                    'https://i.imgur.com/DMpBUY0.gif',
+                    'https://i.imgur.com/Uk5VruT.gif',
+                    'https://i.imgur.com/8E2OOUN.gif',
+                    'https://i.imgur.com/cHjwQkx.gif',
+                    'https://i.imgur.com/Q5MV7nF.gif',
+                    'https://i.imgur.com/cM2LON7.gif',
+                    'https://i.imgur.com/f5ETI0P.gif',
+                    'https://i.imgur.com/1UoCL9w.gif',
+                    'https://i.imgur.com/jelRIkR.gif',
+                    'https://i.imgur.com/GZXLL0v.gif',
+                    'https://i.imgur.com/9m7wxB1.gif',
+                    'https://i.imgur.com/QqxcfA7.gif',
+                    'https://i.imgur.com/xZyQJgW.gif',
+                    'https://i.imgur.com/oX8nOKs.gif',
+                    'https://i.imgur.com/po2sPQ2.gif',
+                    'https://i.imgur.com/bNXcYMD.gif',
+                    'https://i.imgur.com/ijbotYC.gif',
+                    'https://i.imgur.com/9kU4HOy.gif',
+                    'https://i.imgur.com/AFrKcw0.gif',
+                    'https://i.imgur.com/27XwR11.gif',
+                    'https://i.imgur.com/eSgpK6y.gif',
+                    'https://i.imgur.com/x3brY8U.gif',
+                    'https://i.imgur.com/RWkkKpc.gif',
+                    'https://i.imgur.com/AlN9oai.gif',
+                    'https://i.imgur.com/8J65Ljh.gif',
+                    'https://i.imgur.com/yaExBqv.gif',
+                    'https://i.imgur.com/2oSjj7k.gif',
+                    'https://i.imgur.com/YPpXkJZ.gif',
+                    'https://i.imgur.com/d8WRYmX.gif',
+                    'https://i.imgur.com/YpZSrGt.gif',
+                    'https://i.imgur.com/cDhKCEw.gif',
+                    'https://i.imgur.com/lAdyqoZ.gif',
+                    'https://i.imgur.com/XFXdg0m.gif',
+                    'https://i.imgur.com/GUqr6XX.gif',
+                    'https://i.imgur.com/SslIMxT.gif',
+                    'https://i.imgur.com/pw5LcHN.gif',
+                    'https://i.imgur.com/IuC6PJ0.gif',
+                    'https://i.imgur.com/Juksvnt.gif',
+                    'https://i.imgur.com/eFalTcj.gif',
+                    'https://i.imgur.com/SgPoB7b.gif',
+                    'https://i.imgur.com/rKubRE6.gif',
+                    'https://i.imgur.com/OzWE3Wp.gif',
+                    'https://i.imgur.com/rzpNJdg.gif',
+                    'https://i.imgur.com/IfXlpiY.gif',
+                    'https://i.imgur.com/21N5Taz.gif',
+                    'https://i.imgur.com/5zr1Zz9.gif',
+                    'https://i.imgur.com/p0EtHbo.gif',
+                    'https://i.imgur.com/ULx9QZR.gif',
+                    'https://i.imgur.com/f0l9Whm.gif',
+                    'https://i.imgur.com/DN94dGk.gif',
+                    'https://i.imgur.com/AIWY35J.gif',
+                    'https://i.imgur.com/XVj11LY.gif',
+                    'https://i.imgur.com/Y0dzbJN.gif',
+                    'https://i.imgur.com/LMCTtXx.gif',
+                    'https://i.imgur.com/BQfSPDw.gif',
+                    'https://i.imgur.com/tVX6DDF.gif',
+                    'https://i.imgur.com/HMHex1V.gif',
+                    'https://i.imgur.com/GK4LWTW.gif',
+                    'https://i.imgur.com/0w070Jd.gif',
+                    'https://i.imgur.com/IyC82z1.gif',
+                    'https://i.imgur.com/Y1aQwrp.gif',
+                    'https://i.imgur.com/IpmcMZx.gif',
+                    'https://i.imgur.com/RGnIdQW.gif',
+                    'https://i.imgur.com/F8okcfZ.gif',
+                    'https://i.imgur.com/k3aev3V.gif',
+                    'https://i.imgur.com/B6KHSwe.gif',
+                    'https://i.imgur.com/NoE19KV.gif',
+                    'https://i.imgur.com/FcoYbHL.gif',
+                    'https://i.imgur.com/ausaQti.gif',
+                    'https://i.imgur.com/dWcbj2t.gif',
+                    'https://i.imgur.com/Mmc5YLm.gif',
+                    'https://i.imgur.com/kolWaYQ.gif',
+                    'https://i.imgur.com/698Fzws.gif',
+                    'https://i.imgur.com/JCYCGWq.gif',
+                    'https://i.imgur.com/BTeEFAH.gif',
+                    'https://i.imgur.com/jGN811o.gif',
+                    'https://i.imgur.com/OnDKlen.gif',
+                    'https://i.imgur.com/EvnmuRy.gif',
+                    'https://i.imgur.com/pBLHewF.gif',
+                    'https://i.imgur.com/Nev3fHT.gif',
+                    'https://i.imgur.com/Q59geBY.gif',
+                    'https://i.imgur.com/KiSv9Gf.gif',
+                    'https://i.imgur.com/SEYP2EN.gif',
+                    'https://i.imgur.com/XpOHDvS.gif',
+                    'https://i.imgur.com/IlX4mur.gif',
+                    'https://i.imgur.com/CC6gFnd.gif',
+                    'https://i.imgur.com/Lq5k9Ax.gif',
+                    'https://i.imgur.com/H7svqbJ.gif',
+                    'https://i.imgur.com/SqIr4xK.gif',
+                    'https://i.imgur.com/A5kpsmV.gif',
+                    'https://i.imgur.com/bYk5svg.gif',
+                    'https://i.imgur.com/ews5Q2l.gif',
+                    'https://i.imgur.com/zz6idf7.gif',
+                    'https://i.imgur.com/Y0vrDbd.gif',
+                    'https://i.imgur.com/AuwOHFW.gif',
+                    'https://i.imgur.com/iaIwVgW.gif',
+                    'https://i.imgur.com/uv2dN8f.gif',
+                    'https://i.imgur.com/JvKMawF.gif',
+                    'https://i.imgur.com/kuLn5o2.gif',
+                    'https://i.imgur.com/TUAOhbK.gif',
+                    'https://i.imgur.com/xyRUtdP.gif',
+                    'https://i.imgur.com/qnlohKW.gif',
+                    'https://i.imgur.com/4egZ3A4.gif',
+                    'https://i.imgur.com/9xd0dDz.gif',
+                    'https://i.imgur.com/sSQbWxG.gif',
+                    'https://i.imgur.com/fAInxmN.gif']
+
+        image = random.choice(choices)
+
+        embed = discord.Embed(description=ass, colour=discord.Colour.blue())
+        embed.set_image(url=image)
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def bite(self, ctx, member: discord.Member):
+
+            author_gender = determineGender(ctx.author)
+            mention_gender = determineGender(member)
+            if author_gender == 'male':
+                if mention_gender == 'female':
+                    author = ctx.message.author.name
+                    mention = member.name
+
+                    bite = '**{0} bites {1}**'
+
+                    choices = ['https://i.imgur.com/DfXChod.gif',
+                               'https://i.imgur.com/8EmxUDt.gif',
+                               'https://i.imgur.com/twkzbeS.gif',
+                               'https://i.imgur.com/RdFmVr4.gif',
+                               'https://i.imgur.com/wfDATY6.gif',
+                               'https://i.imgur.com/QcRC7aP.gif',
+                               'https://i.imgur.com/5kKyidf.gif',
+                               'https://i.imgur.com/kia6vXA.gif',
+                               'https://i.imgur.com/vWxiGkN.gif',
+                               'https://i.imgur.com/rbKfRJu.gif'
+                               ]
+                    image = random.choice(choices)
+
+                    embed = discord.Embed(description=bite.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
+
+                else:
+                    author = ctx.message.author.name
+                    mention = member.name
+
+                    bite = '**{0} bites {1}**'
+
+                    choices = ['https://i.imgur.com/qknbidS.gif',
+                               'https://i.imgur.com/AM0zDqp.gif',
+                               'https://i.imgur.com/VsPzuep.gif',
+                               'https://i.imgur.com/Ch75jYN.gif',
+                               'https://i.imgur.com/Ch75jYN.gif',
+                               'https://i.imgur.com/PyJBbVi.gif',
+                               'https://i.imgur.com/PtKsG9O.gif',
+                               'https://i.imgur.com/2qogNb8.gif',
+                               'https://i.imgur.com/9nVcYuO.gif',
+                               'https://i.imgur.com/MZs215n.gif'
+                               ]
+                    image = random.choice(choices)
+
+                    embed = discord.Embed(description=bite.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
+
+            elif author_gender == 'female':
+                if mention_gender == 'male':
+                    author = ctx.message.author.name
+                    mention = member.name
+
+                    bite = '**{0} bites {1}**'
+
+                    choices = ['https://i.imgur.com/8wQK85v.gif',
+                               'https://i.imgur.com/bZUlaSX.gif',
+                               'https://i.imgur.com/KsQn9Nl.gif',
+                               'https://i.imgur.com/qzCS7Fb.gif',
+                               'https://i.imgur.com/H5bLbez.gif',
+                               'https://i.imgur.com/TloqNAr.gif',
+                               'https://i.imgur.com/I0eBNt1.gif',
+                               'https://i.imgur.com/g68opeU.gif',
+                               'https://i.imgur.com/IWEZeU4.gif'
+                               ]
+                    image = random.choice(choices)
+
+                    embed = discord.Embed(description=bite.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
+
+                else:
+                    author = ctx.message.author.name
+                    mention = member.name
+
+                    bite = '**{0} bites {1}**'
+
+                    choices = ['https://i.imgur.com/pHCvWzF.gif',
+                               'https://i.imgur.com/6gWhjNO.gif',
+                               'https://i.imgur.com/VhTd8XP.gif',
+                               'https://i.imgur.com/F6v2gal.gif',
+                               'https://i.imgur.com/k6aiL1L.gif',
+                               'https://i.imgur.com/Jc0VO4U.gif',
+                               'https://i.imgur.com/E79Jtsk.gif',
+                               'https://i.imgur.com/YuZayDZ.gif',
+                               'https://i.imgur.com/Gp0YumK.gif'
+                               ]
+                    image = random.choice(choices)
+
+                    embed = discord.Embed(description=bite.format(author, mention), colour=discord.Colour.blue())
+                    embed.set_image(url=image)
+
+                    await ctx.send(embed=embed)
+
+    @bite.error
+    async def bite_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You need to mention someone**')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+
+        raise error
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def massage(self, ctx, member: discord.Member):
+        author_gender = determineGender(ctx.author)
+        mention_gender = determineGender(member)
+        if author_gender == 'male':
+            if mention_gender == 'female':
+                author = ctx.message.author.name
+                mention = member.name
+                massage = '**{0} gives {1} a good massage**'
+
+                choices = ['https://i.imgur.com/7j0ZQxU.gif',
+                           'https://i.imgur.com/p5eAQdw.gif',
+                           'https://i.imgur.com/TjS39RP.gif',
+                           'https://i.imgur.com/2lQ7Fj9.gif',
+                           'https://i.imgur.com/VtD3sir.gif']
+                image = random.choice(choices)
+                embed = discord.Embed(description=massage.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                massage = '**{0} gives {1} a good massage**'
+
+                choices = ['https://i.imgur.com/ShHd8kN.gif',
+                           'https://i.imgur.com/4iuasHV.gif']
+                image = random.choice(choices)
+                embed = discord.Embed(description=massage.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if mention_gender == 'male':
+                author = ctx.message.author.name
+                mention = member.name
+                massage = '**{0} gives {1} a good massage**'
+
+                choices = ['https://i.imgur.com/6diCV8t.gif',
+                           'https://i.imgur.com/QMTb0XJ.gif']
+                image = random.choice(choices)
+                embed = discord.Embed(description=massage.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                massage = '**{0} gives {1} a good massage**'
+
+                choices = ['https://i.imgur.com/Ed8NcW4.gif',
+                           'https://i.imgur.com/VhYzXOf.gif',
+                           'https://i.imgur.com/zmQ7m27.gif']
+                image = random.choice(choices)
+                embed = discord.Embed(description=massage.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @massage.error
+    async def massage_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You need to mention someone**')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+
+        raise error
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def bondage(self, ctx, member: discord.Member):
+        author_gender = determineGender(ctx.author)
+        mention_gender = determineGender(member)
+
+        if author_gender == 'male':
+            if mention_gender == 'female':
+                author = ctx.message.author.name
+                mention = member.name
+
+                sixtynine = '**{0} bondages {1}**'
+
+                choices = ['https://i.imgur.com/vZO2Y0e.gif',
+                           'https://i.imgur.com/LvIz1GP.gif',
+                           'https://i.imgur.com/VcYTQ27.gif',
+                           'https://i.imgur.com/tpiXCZI.gif',
+                           'https://i.imgur.com/3AA1nw9.gif',
+                           'https://i.imgur.com/sYXmhWU.gif',
+                           'https://i.imgur.com/JWV3vDy.gif',
+                           'https://i.imgur.com/NvCICor.gif',
+                           'https://i.imgur.com/u0uZi4v.gif',
+                           'https://i.imgur.com/SvhpPhu.gif',
+                           'https://i.imgur.com/CWEA3AK.gif',
+                           'https://i.imgur.com/c3GfhnC.gif',
+                           'https://i.imgur.com/ntEjUr7.gif',
+                           'https://i.imgur.com/hoeN0Nz.gif',
+                           'https://i.imgur.com/EQyDnKn.gif',
+                           'https://i.imgur.com/cZS3P04.gif',
+                           'https://i.imgur.com/GVQ7Ydf.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+
+                sixtynine = '**{0} bondages {1}**'
+
+                choices = ['https://i.imgur.com/VFNDRBy.gif',
+                           'https://i.imgur.com/OYPnfiG.gif',
+                           'https://i.imgur.com/PMbIso6.gif',
+                           'https://i.imgur.com/76WonL8.gif',
+                           'https://i.imgur.com/OOTp5n8.gif',
+                           'https://i.imgur.com/zqQs5c7.gif',
+                           'https://i.imgur.com/FiamEyG.gif',
+                           'https://i.imgur.com/lK2eNHC.gif',
+                           'https://i.imgur.com/bnDgk3P.gif',
+                           'https://i.imgur.com/bGGkNS2.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if mention_gender == 'male':
+                author = ctx.message.author.name
+                mention = member.name
+
+                sixtynine = '**{0} bondages {1}**'
+
+                choices = ['https://i.imgur.com/aQDmyuD.gif',
+                           'https://i.imgur.com/kipMUyV.gif',
+                           'https://i.imgur.com/orUMNpW.gif',
+                           'https://i.imgur.com/u0T5FEL.gif',
+                           'https://i.imgur.com/m2JuNas.gif',
+                           'https://i.imgur.com/OfRey1k.gif',
+                           'https://i.imgur.com/JL3cTFx.gif',
+                           'https://i.imgur.com/4j98RSc.gif',
+                           'https://i.imgur.com/rUM9i6E.gif',
+                           'https://i.imgur.com/88aDUTL.gif',
+                           'https://i.imgur.com/mZLtYRR.gif',
+                           'https://i.imgur.com/QOejpgx.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+
+                sixtynine = '**{0} bondages {1}**'
+
+                choices = ['https://i.imgur.com/jYXc3v5.gif',
+                           'https://i.imgur.com/kUghQWX.gif',
+                           'https://i.imgur.com/iXtEFR6.gif',
+                           'https://i.imgur.com/rGcl1jw.gif',
+                           'https://i.imgur.com/Hj1n6MF.gif',
+                           'https://i.imgur.com/wdpaK77.gif',
+                           'https://i.imgur.com/wFkl5f0.gif',
+                           'https://i.imgur.com/qwjeb8x.gif',
+                           'https://i.imgur.com/TlFBMAU.gif',
+                           'https://i.imgur.com/H3OBHEl.gif',
+                           'https://i.imgur.com/7iIsj8j.gif',
+                           'https://i.imgur.com/UQm9bkS.gif',
+                           'https://i.imgur.com/2FwvuWa.gif',
+                           'https://i.imgur.com/0m8KsTa.gif',
+                           'https://i.imgur.com/zYDRuwJ.gif',
+                           'https://i.imgur.com/3pRD4Hr.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=sixtynine.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def threesome(self, ctx, members: Greedy[Member]):
+        males = ''
+        females = ''
+        author_gender = determineGender(ctx.author)
+        for member in members:
+            if determineGender(member) == 'male':
+                males += member.name
+
+            elif determineGender(member) == 'female':
+                females += member.name
+
+            return
+
+        if author_gender == 'male':
+            if len(males) == 2:
+                author = ctx.message.author.name
+                threesome = '{0} hops in threesome with {1}'
+                choices = ['https://images-na.ssl-images-amazon.com/images/I/51prO3rFM5L.jpg']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=threesome.format(author, males), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            elif len(females) == 2:
+                author = ctx.message.author.name
+                threesome = '{0} hops in threesome with {1}'
+                choices = ['https://images-na.ssl-images-amazon.com/images/I/51prO3rFM5L.jpg']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=threesome.format(author, males), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if len(males) == 2:
+                author = ctx.message.author.name
+                threesome = '{0} hops in threesome with {1}'
+                choices = ['https://images-na.ssl-images-amazon.com/images/I/51prO3rFM5L.jpg']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=threesome.format(author, males), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            elif len(females) == 2:
+                author = ctx.message.author.name
+                threesome = '{0} hops in threesome with {1}'
+                choices = ['https://images-na.ssl-images-amazon.com/images/I/51prO3rFM5L.jpg']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=threesome.format(author, males), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def cum(self, ctx, member: discord.Member):
+        author_gender = determineGender(ctx.author)
+        mention_gender = determineGender(member)
+        if author_gender == 'male':
+            if mention_gender == 'female':
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} cums on {1}**'
+
+                choices = ['https://i.imgur.com/JZFIbJC.gif',
+                           'https://i.imgur.com/fTy57w7.gif',
+                           'https://i.imgur.com/rwvuHWZ.gif',
+                           'https://i.imgur.com/8qsYXbz.gif',
+                           'https://i.imgur.com/IQEzJYZ.gif',
+                           'https://i.imgur.com/bGuMzZv.gif',
+                           'https://i.imgur.com/HKP8JIQ.gif',
+                           'https://i.imgur.com/0WyJL3C.gif',
+                           'https://i.imgur.com/GFiJwtv.gif',
+                           'https://i.imgur.com/xf8AUjI.gif',
+                           'https://i.imgur.com/yE6fGtq.gif',
+                           'https://i.imgur.com/tgg5lwu.gif',
+                           'https://i.imgur.com/wspWi39.gif',
+                           'https://i.imgur.com/etntZIw.gif',
+                           'https://i.imgur.com/OgOIDyb.gif',
+                           'https://i.imgur.com/RroRPMR.gif',
+                           'https://i.imgur.com/JkkI775.gif',
+                           'https://i.imgur.com/f6SJF3N.gif',
+                           'https://i.imgur.com/uyeTfjw.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} cums on {1}**'
+
+                choices = ['https://i.imgur.com/oe6BhDn.gif',
+                           'https://i.imgur.com/KPKGWDg.gif',
+                           'https://i.imgur.com/PuPVLQ7.gif',
+                           'https://i.imgur.com/IxCMqGm.gif',
+                           'https://i.imgur.com/eeuBQhm.gif',
+                           'https://i.imgur.com/PgpeTaN.gif',
+                           'https://i.imgur.com/GFkTXKc.gif',
+                           'https://i.imgur.com/ZAMn6KF.gif',
+                           'https://i.imgur.com/i0WFqbo.gif',
+                           'https://i.imgur.com/xKygyWa.gif',
+                           'https://i.imgur.com/zR3SCo1.gif',
+                           'https://i.imgur.com/CtTKIbB.gif',
+                           'https://i.imgur.com/P7h02RS.gif',
+                           'https://i.imgur.com/cuXOLQk.gif',
+                           'https://i.imgur.com/uhgDX5u.gif',
+                           'https://i.imgur.com/L0xg8Mj.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if mention_gender == 'male':
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} squirts for {1}**'
+
+                choices = ['https://i.imgur.com/fYdUQEZ.gif',
+                           'https://i.imgur.com/gMuqer4.gif',
+                           'https://i.imgur.com/Zb4CTGZ.gif',
+                           'https://i.imgur.com/mEiknki.gif',
+                           'https://i.imgur.com/A1wkvMl.gif',
+                           'https://i.imgur.com/bPKxJW4.gif',
+                           'https://i.imgur.com/llK0B4D.gif',
+                           'https://i.imgur.com/jCg7CWd.gif',
+                           'https://i.imgur.com/iw1LHCl.gif',
+                           'https://i.imgur.com/IcmKt0N.gif',
+                           'https://i.imgur.com/qYbaNYR.gif',
+                           'https://i.imgur.com/YeDFzMw.gif',
+                           'https://i.imgur.com/oooJIHd.gif',
+                           'https://i.imgur.com/pB05kVV.gif',
+                           'https://i.imgur.com/C2nk7Fl.gif',
+                           'https://i.imgur.com/UtMB2nR.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} squirts for {1}**'
+
+                choices = ['https://i.imgur.com/RDAlX6W.gif',
+                           'https://i.imgur.com/XPNbVEa.gif',
+                           'https://i.imgur.com/JCccOIo.gif',
+                           'https://i.imgur.com/NYZ5czo.gif',
+                           'https://i.imgur.com/bETXlmP.gif',
+                           'https://i.imgur.com/CYx8gbR.gif',
+                           'https://i.imgur.com/Lsefwon.gif',
+                           'https://i.imgur.com/jRrR0WS.gif',
+                           'https://i.imgur.com/yMBYE0N.gif',
+                           'https://i.imgur.com/RVpZ7ev.gif',
+                           'https://i.imgur.com/aRYXZEB.gif',
+                           'https://i.imgur.com/U5e8MS9.gif',
+                           'https://i.imgur.com/zPtajhY.gif',
+                           'https://i.imgur.com/5LtXs05.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @cum.error
+    async def cum_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You need to mention someone**')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+
+        raise error
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def collar(self, ctx, member: discord.Member):
+        author_gender = determineGender(ctx.author)
+        mention_gender = determineGender(member)
+        if author_gender == 'male':
+            if mention_gender == 'female':
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} collars {1}**'
+
+                choices = ['https://i.imgur.com/GOyyn9W.gif',
+                           'https://i.imgur.com/7yRqNrC.gif',
+                           'https://i.imgur.com/2qLPOCG.gif',
+                           'https://i.imgur.com/NDqNteW.gif',
+                           'https://i.imgur.com/KBgCy2u.gif',
+                           'https://i.imgur.com/K2FEEoH.gif',
+                           'https://i.imgur.com/Cyp3i2f.gif',
+                           'https://i.imgur.com/EFfrDSR.gif',
+                           'https://i.imgur.com/wxSksqp.gif',
+                           'https://i.imgur.com/ljpl0oO.gif',
+                           'https://i.imgur.com/BPgXUjE.gif',
+                           'https://i.imgur.com/BcJ7LwB.gif',
+                           'https://i.imgur.com/OnppjzI.gif',
+                           'https://i.imgur.com/3QYGUa7.gif'
+                           ]
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} collars {1}**'
+
+                choices = ['https://i.imgur.com/p3nOKYu.gif',
+                           'https://i.imgur.com/p5AEVvb.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif author_gender == 'female':
+            if mention_gender == 'male':
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} collars {1}**'
+
+                choices = ['https://i.imgur.com/5psSaNC.gif',
+                           'https://i.imgur.com/L5Zm9m8.gif',
+                           'https://i.imgur.com/6SWhwD8.gif',
+                           'https://i.imgur.com/HAWR1OH.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+            else:
+                author = ctx.message.author.name
+                mention = member.name
+                cum = '**{0} collars {1}**'
+
+                choices = ['https://i.imgur.com/QGYjuAH.gif',
+                           'https://i.imgur.com/7dWEOr6.gif',
+                           'https://i.imgur.com/ecjmuHS.gif',
+                           'https://i.imgur.com/nWaf7vI.gif',
+                           'https://i.imgur.com/7cyFDFO.gif',
+                           'https://i.imgur.com/Fb7yY5W.gif',
+                           'https://i.imgur.com/bpa4VFv.gif',
+                           'https://i.imgur.com/Gx3iA2r.gif',
+                           'https://i.imgur.com/vWnsOAV.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cum.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+    @collar.error
+    async def collar_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('**You need to mention someone**')
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+
+        raise error
+
+    @commands.command()
+    @commands.is_nsfw()
+    async def twerk(self, ctx, member: discord.Member = None):
+        """Booster exclusive"""
+
+        role = discord.utils.get(ctx.guild.roles, name='Nitro Booster')
+        if role in ctx.author.roles:
+            if not member:
+                member = ctx.author
+                if member == ctx.author:
+                    author_gender = determineGender(ctx.author)
+                    if author_gender == 'female':
+                        author = ctx.message.author.name
+                        twerk = '**{0} twerks alone**'
+
+                        choices = ['https://i.imgur.com/YeTAy1t.gif',
+                                   'https://media1.tenor.com/images/cbf58e5f7af57d0d4a2ff99057f222ff/tenor.gif?itemid=14437692',
+                                   'https://media1.tenor.com/images/1ee1027cf740cadc792169a2236b7c8e/tenor.gif?itemid=16533860',
+                                   'https://media1.tenor.com/images/1a083bd41edac965b9d0b85e142177cf/tenor.gif?itemid=3522090',
+                                   'https://media.tenor.com/images/1536edf7a98358fc0c419f6de8cb7034/tenor.gif',
+                                   'https://media.tenor.com/images/0c2c1a519344470444e88826b82e94c2/tenor.gif',
+                                   'https://media.tenor.com/images/731cc7f1319761535922e8cff584e440/tenor.gif',
+                                   'https://media1.tenor.com/images/40e679d132f890fcf388ab82d624dd73/tenor.gif?itemid=4570132',
+                                   'https://media.tenor.com/images/cab67fe15cc108c16706f127049abc50/tenor.gif',
+                                   'https://media1.tenor.com/images/ace81698d35836782ed47a2b4becf2eb/tenor.gif?itemid=15156470',
+                                   'https://media.giphy.com/media/t1kRtJmCI4R1e/giphy.gif',
+                                   'https://media.giphy.com/media/x4bq6nKyGZpY0MVqqv/giphy.gif',
+                                   'https://media.giphy.com/media/MhXcB0uktlRFm/giphy.gif',
+                                   'https://media.giphy.com/media/ScMCHe4FAMwso/giphy.gif',
+                                   'https://media.giphy.com/media/gnE9JR4OxfLig/giphy.gif',
+                                   'https://media.giphy.com/media/C9M0Q2ks5Wt0mErIXe/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                    else:
+                        author = ctx.message.author.name
+                        twerk = '**{0} twerks alone**'
+
+                        choices = ['https://media1.giphy.com/media/yhVTV3hhdHJhm/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+
+            elif member:
+                author_gender = determineGender(ctx.author)
+                mention_gender = determineGender(member)
+                if author_gender == 'female':
+                    if mention_gender == 'male':
+                        author = ctx.message.author.name
+                        mention = member.name
+                        twerk = '**{0} twerks for {1}**'
+
+                        choices = ['https://i.imgur.com/YeTAy1t.gif',
+                                   'https://media1.tenor.com/images/cbf58e5f7af57d0d4a2ff99057f222ff/tenor.gif?itemid=14437692',
+                                   'https://media1.tenor.com/images/1ee1027cf740cadc792169a2236b7c8e/tenor.gif?itemid=16533860',
+                                   'https://media1.tenor.com/images/1a083bd41edac965b9d0b85e142177cf/tenor.gif?itemid=3522090',
+                                   'https://media.tenor.com/images/1536edf7a98358fc0c419f6de8cb7034/tenor.gif',
+                                   'https://media.tenor.com/images/0c2c1a519344470444e88826b82e94c2/tenor.gif',
+                                   'https://media.tenor.com/images/731cc7f1319761535922e8cff584e440/tenor.gif',
+                                   'https://media1.tenor.com/images/40e679d132f890fcf388ab82d624dd73/tenor.gif?itemid=4570132',
+                                   'https://media.tenor.com/images/cab67fe15cc108c16706f127049abc50/tenor.gif',
+                                   'https://media1.tenor.com/images/ace81698d35836782ed47a2b4becf2eb/tenor.gif?itemid=15156470',
+                                   'https://media.giphy.com/media/t1kRtJmCI4R1e/giphy.gif',
+                                   'https://media.giphy.com/media/x4bq6nKyGZpY0MVqqv/giphy.gif',
+                                   'https://media.giphy.com/media/MhXcB0uktlRFm/giphy.gif',
+                                   'https://media.giphy.com/media/ScMCHe4FAMwso/giphy.gif',
+                                   'https://media.giphy.com/media/gnE9JR4OxfLig/giphy.gif',
+                                   'https://media.giphy.com/media/C9M0Q2ks5Wt0mErIXe/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author, mention), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                    else:
+                        author = ctx.message.author.name
+                        mention = member.name
+                        twerk = '**{0} twerks for {1}**'
+
+                        choices = ['https://i.imgur.com/YeTAy1t.gif',
+                                   'https://media1.tenor.com/images/cbf58e5f7af57d0d4a2ff99057f222ff/tenor.gif?itemid=14437692',
+                                   'https://media1.tenor.com/images/1ee1027cf740cadc792169a2236b7c8e/tenor.gif?itemid=16533860',
+                                   'https://media1.tenor.com/images/1a083bd41edac965b9d0b85e142177cf/tenor.gif?itemid=3522090',
+                                   'https://media.tenor.com/images/1536edf7a98358fc0c419f6de8cb7034/tenor.gif',
+                                   'https://media.tenor.com/images/0c2c1a519344470444e88826b82e94c2/tenor.gif',
+                                   'https://media.tenor.com/images/731cc7f1319761535922e8cff584e440/tenor.gif',
+                                   'https://media1.tenor.com/images/40e679d132f890fcf388ab82d624dd73/tenor.gif?itemid=4570132',
+                                   'https://media.tenor.com/images/cab67fe15cc108c16706f127049abc50/tenor.gif',
+                                   'https://media1.tenor.com/images/ace81698d35836782ed47a2b4becf2eb/tenor.gif?itemid=15156470',
+                                   'https://media.giphy.com/media/t1kRtJmCI4R1e/giphy.gif',
+                                   'https://media.giphy.com/media/x4bq6nKyGZpY0MVqqv/giphy.gif',
+                                   'https://media.giphy.com/media/MhXcB0uktlRFm/giphy.gif',
+                                   'https://media.giphy.com/media/ScMCHe4FAMwso/giphy.gif',
+                                   'https://media.giphy.com/media/gnE9JR4OxfLig/giphy.gif',
+                                   'https://media.giphy.com/media/C9M0Q2ks5Wt0mErIXe/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author, mention), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                elif author_gender == 'male':
+                    if mention_gender == 'female':
+                        author = ctx.message.author.name
+                        mention = member.name
+                        twerk = '**{0} twerks for {1}**'
+
+                        choices = ['https://media1.giphy.com/media/yhVTV3hhdHJhm/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author, mention), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+
+                    else:
+                        author = ctx.message.author.name
+                        mention = member.name
+                        twerk = '**{0} twerks for {1}**'
+
+                        choices = ['https://media1.giphy.com/media/yhVTV3hhdHJhm/giphy.gif']
+                        image = random.choice(choices)
+
+                        embed = discord.Embed(description=twerk.format(author, mention), colour=discord.Colour.blue())
+                        embed.set_image(url=image)
+
+                        await ctx.send(embed=embed)
+        else:
+            await ctx.send("**You need Booster role to use this command**")
+
+    @twerk.error
+    async def twerk_error(self, ctx, error):
+        if isinstance(error, commands.NSFWChannelRequired):
+            await ctx.send("**Channel isn't NSFW!**")
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("**You need Booster role to use this command**")
+
+        raise error
 
 def setup(client):
     client.add_cog(Nsfw(client))
-
-
