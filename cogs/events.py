@@ -10,7 +10,7 @@ class Events(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.Cog.listener()
+    """@commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.client.user:
             return
@@ -28,7 +28,7 @@ class Events(commands.Cog):
             await asyncio.sleep(10)
         except Exception as e:
             print(e)
-            await asyncio.sleep(10)
+            await asyncio.sleep(10)"""
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):

@@ -46,37 +46,6 @@ async def on_ready():
         print('--------------')
 
 
-async def check_for_birthday(ctx):
-    await client.wait_until_ready()
-    now = datetime.datetime.now()
-    curmonth = now.month
-    curday = now.day
-
-    while not client.is_closed():
-        with open('birthday.json', 'r') as f:
-            var = json.load(f)
-            for member in var:
-                if member['month'] == curmonth:
-                    if member['day'] == curday:
-                        try:
-                            await client.get_user(member).send("Happy Birthday!")
-                        except:
-                            pass
-                        success = False
-                        index = 0
-                        while not success:
-                            try:
-                                await ctx.guild.channels[index].send(f"Happy birtday to <@{member}>!")
-                            except discord.Forbidden:
-                                index += 1
-                            except AttributeError:
-                                index += 1
-                            except IndexError:
-                                pass
-                            else:
-                                success = True
-        await asyncio.sleep(86400)
-
 
 @client.event
 async def on_member_join(member):
@@ -182,80 +151,6 @@ async def help(ctx, user: discord.User=None):
     await user.send(embed=em)
     await user.send(embed=emb)
     await ctx.send('**Sending info in DMs...($nsfw for nsfw command list)**')
-
-
-@client.command()
-async def setbirthday(ctx):
-    member = ctx.message.author.id
-    await ctx.send("What is your birthday? Please use MM/DD format.")
-
-    def check(user):
-        return user == ctx.message.author and user == ctx.message.channel
-    msg = await client.wait_for('message', check=check)
-    try:
-        list = msg.split("/")
-        if list[0] > 13 or list[0] < 1:
-            await ctx.send("Invalid date.")
-            await ctx.send("Aborting...")
-            return
-        else:
-            pass
-
-        if list[0] in (1, 3, 5, 7, 8, 10, 12):
-            if list[1] > 31 or list[1] < 1:
-                await ctx.send("Invalid date.")
-                await ctx.send("Aborting...")
-                return
-            else:
-                pass
-
-        elif list[0] in (4, 6, 9, 11,):
-            if list[1] > 30 or list[1] < 1:
-                await ctx.send("Invalid date.")
-                await ctx.send("Aborting...")
-                return
-            else:
-                pass
-
-        elif list[0] == 2:
-            if list[1] > 29 or list[1] < 1:
-                await ctx.send("Invalid date.")
-                await ctx.send("Aborting...")
-                return
-            else:
-                pass
-
-        else:
-            await ctx.send("Invalid date.")
-            await ctx.send("Aborting...")
-            return
-
-    except:
-        await ctx.send("Invalid date.")
-        await ctx.send("Aborting...")
-        return
-
-    list = msg.split("/")
-    month = list[0]
-    day = list[1]
-
-    with open(r'C:\Users\utku1utku\Desktop\Botaru Project\birthday.json', 'w') as f:
-        var = json.load(f)
-        var[member] = {'month': month, 'day': day}
-        json.dump(var, f, indent=4)
-
-@client.command()
-async def remind(ctx, time, *, text):
-    date = datetime.datetime(*map(int, time.split("/")))
-
-    client.timer_manager.create_timer("reminder", date, args=(ctx.channel.id, ctx.author.id, text))
-
-@client.event
-async def on_reminder(channel_id, author_id, text):
-    channel = client.get_channel(channel_id)
-
-    await channel.send("Hey <@{0}>, remember to: {1}".format(author_id, text))
-
 
 
 @client.command()
