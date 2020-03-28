@@ -180,4 +180,4 @@ if __name__ == '__main__':
             traceback.print_exc()
 
 
-client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XdSLWQ.Fb9Gw3NBA2p5ovgwGs7FDHmd7uc')
+client.run(os.getenv('BOT_TOKEN'))
