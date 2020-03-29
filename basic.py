@@ -28,7 +28,7 @@ def get_prefix(client, message):
     return commands.when_mentioned_or(prefix)(client, message)
 
 
-initial_extensions = ['cogs.prefix', 'cogs.actions', 'cogs.events', 'cogs.example', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw']
+initial_extensions = ['cogs.actions', 'cogs.events', 'cogs.example', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw']
 client = commands.Bot(command_prefix=get_prefix)
 status = cycle(['$help for commands', '$nsfw for nsfw commands', 'Still under Development'])
 owner = client.is_owner(user='464802706930794496')
