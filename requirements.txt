@@ -1,4 +1,4 @@
-discord.py
+discord
 dnspython==1.16.0
 requests
 pandas
