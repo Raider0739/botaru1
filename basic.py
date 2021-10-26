@@ -145,7 +145,7 @@ if __name__ == '__main__':
             traceback.print_exc()
 
 <<<<<<< HEAD
-client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XxilRw.a03ihNogmVNuXysOe6ajp1e-OKE')
+client.run('Token')
 =======
 
 client.run(os.environ['token'])
