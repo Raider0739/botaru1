@@ -11,18 +11,17 @@ class Prefix(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def prefix(self, ctx, *, pre):
-        with open(r"C:\Users\utku1utku\Desktop\Botaru Project\prefixes.json", 'r') as f:
+        with open(r"prefixes.json", 'r') as f:
             prefixes = json.load(f)
 
         prefixes[str(ctx.guild.id)] = pre
         await ctx.send(f"**New prefix is '{pre}'**")
 
-        with open(r"C:\Users\utku1utku\Desktop\Botaru Project\prefixes.json", 'w') as f:
+        with open(r"prefixes.json", 'w') as f:
             json.dump(prefixes, f, indent=4)
 
     @prefix.error
     async def prefix_error(self, ctx, error):
-
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("You need to write an input(My default is $)!")
         if isinstance(error, commands.MissingPermissions):

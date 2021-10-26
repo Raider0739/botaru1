@@ -34,10 +34,9 @@ class Events(commands.Cog):
     async def on_command_error(self, ctx, error):
 
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send('**This is not a command!**')
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('**You need to mention someone**')
-
+            message = await ctx.send('**This is not a command!**')
+            await asyncio.sleep(5)
+            await message.delete()
         raise error
 
 

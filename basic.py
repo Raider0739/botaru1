@@ -10,7 +10,7 @@ import sqlite3
 import json
 import traceback
 import discord.utils
-from discord.ext import commands, tasks, timers
+from discord.ext import commands, tasks
 from itertools import cycle
 
 
@@ -28,23 +28,25 @@ def get_prefix(client, message):
     return commands.when_mentioned_or(prefix)(client, message)
 
 
-initial_extensions = ['cogs.prefix', 'cogs.actions', 'cogs.events', 'cogs.example', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw']
-client = commands.Bot(command_prefix=get_prefix)
-status = cycle(['$help for commands', '$nsfw for nsfw commands', 'Still under Development'])
-owner = client.is_owner(user='464802706930794496')
-client.timer_manager = timers.TimerManager(client)
+intents = discord.Intents.default()
 
+intents.members = True
+
+initial_extensions = ['cogs.character', 'cogs.help', 'cogs.marriage', 'cogs.levels', 'cogs.prefix', 'cogs.actions', 'cogs.events', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw']
+client = commands.Bot(command_prefix=get_prefix, case_insensitive=True, intents=intents)
+status = cycle(['$help for commands', '$nsfw for nsfw commands', '$patreon to donate', '$invite to invite Botaru'])
+owner = client.is_owner(user='464802706930794496')
 client.remove_command('help')
 queues = {}
 
+
 @client.event
 async def on_ready():
-
-        change_status.start()
-        print('Bot is online.')
-        print('Owner : Raider')
-        print('--------------')
-
+    change_status.start()
+    print('Bot is online.')
+    print('Owner : Raider')
+    print('--------------')
+    print(f"Currently in {str(len(client.guilds))} servers")
 
 
 @client.event
@@ -55,7 +57,8 @@ async def on_member_join(member):
         role2 = discord.utils.get(member.guild.roles, name='.・。.・゜✭ Traits ✭・゜・。.')
         role3 = discord.utils.get(member.guild.roles, name='.・。.・゜✭ Kinks ✭・゜・。.')
         await member.add_roles(role, role1, role2, role3)
-
+    if member.guild.id == 693712195049226271:
+        await client.get_channel(693712195049226274).send(f"Welcome {member.mention} to Cheeky 18+ please head to <#693714056720154656> accept them then get <#693714074852130857>, in order to start having fun! Enjoy your stay!")
 
 
 @tasks.loop(seconds=30)
@@ -108,55 +111,10 @@ async def avatar(ctx, *, member: discord.Member = None):
 
 
 @client.command()
-async def help(ctx, user: discord.User=None):
-    if not user:
-        user = ctx.author
-
-    em = discord.Embed(colour=discord.Colour.blue())
-    em.set_author(name='Help 1')
-    em.add_field(name='avatar(av)', value='Shows a members avatar.', inline=False)
-    em.add_field(name='userinfo', value='Shows the user info', inline=False)
-    em.add_field(name='morning(gm)', value='Morning gifs', inline=False)
-    em.add_field(name='goodnight(gn)', value='Goodnight gifs', inline=False)
-    em.add_field(name='ping', value='Gives latency', inline=False)
-    em.add_field(name='hug', value='Hugs the member you mention', inline=False)
-    em.add_field(name='cuddle', value='Cuddles the member you mention', inline=False)
-    em.add_field(name='kiss', value='Kisses the member you mention', inline=False)
-    em.add_field(name='pat', value='Pats the member you mention', inline=False)
-    em.add_field(name='smile', value='Smile gifs for happy moments', inline=False)
-    em.add_field(name='kill', value='Kills the member you mention', inline=False)
-    em.add_field(name='fistbump', value='Bumps fist with the member you mention', inline=False)
-    em.add_field(name='bunny', value='Sends cute bunny gifs', inline=False)
-    em.add_field(name='punch', value='Punches the member you mention', inline=False)
-    em.add_field(name='popcorn', value='Eating popcorn alone or with someone', inline=False)
-    em.add_field(name='goodjob(gj)', value='Good job gifs', inline=False)
-    emb = discord.Embed(colour=discord.Colour.blue())
-    emb.set_author(name='Help 2')
-    emb.add_field(name='gay', value='Calls the person you mention gay(only for fun purposes)', inline=False)
-    emb.add_field(name='nap', value='Time to take a nap zzZ..', inline=False)
-    emb.add_field(name='holdhand', value='Holds the hand of member you mention', inline=False)
-    emb.add_field(name='spooky', value='Halloween special command', inline=False)
-    emb.add_field(name='penis', value='Lets see how big are you', inline=False)
-    emb.add_field(name='lewd', value='Calls people lewd', inline=False)
-    emb.add_field(name='nom', value='NOMNOMNOM, basically its nomming', inline=False)
-    emb.add_field(name='blowkiss', value='Blows a kiss to member you mention', inline=False)
-    emb.add_field(name='slap', value='Slaps the member you mention', inline=False)
-    emb.add_field(name='poke', value='Pokes the member you mention', inline=False)
-    emb.add_field(name='fu', value='Says fuck you to member you mention', inline=False)
-    emb.add_field(name='boop', value='Boops the member you mention', inline=False)
-    emb.add_field(name='grouphug', value='Group hug command you can mention multiple members', inline=False)
-    emb.add_field(name='feed', value='Feeds the member you mention', inline=False)
-    emb.add_field(name='suplex', value='Suplex the member you mention', inline=False)
-    emb.add_field(name='cat', value='Sends random cat pics', inline=False)
-    await user.send(embed=em)
-    await user.send(embed=emb)
-    await ctx.send('**Sending info in DMs...($nsfw for nsfw command list)**')
-
-
-@client.command()
-async def invite(ctx):
-    await ctx.send('https://discordapp.com/api/oauth2/authorize?client_id=489808074929078272&permissions=8&scope=bot')
-
+@commands.is_owner()
+async def servers(ctx):
+    for guild in client.guilds:
+        await ctx.send(guild.name)
 
 @client.command()
 @commands.is_owner()
@@ -165,7 +123,9 @@ async def reload(ctx, initial_extensions):
     try:
         client.unload_extension(f'cogs.{initial_extensions}')
         client.load_extension(f'cogs.{initial_extensions}')
-        await ctx.send(f'{initial_extensions} reloaded')
+        embed = discord.Embed(description=f"**I reloaded {initial_extensions} daddy**", colour=discord.Colour.blue())
+        embed.set_image(url='https://cdn.discordapp.com/attachments/798913238229188608/822550521273516042/tenor.gif')
+        await ctx.send(embed=embed)
     except Exception as e:
         print(f'{initial_extensions} can not be loaded:')
         raise e
@@ -179,5 +139,4 @@ if __name__ == '__main__':
             print(f'Failed to load extension {extension}.', file=sys.stderr)
             traceback.print_exc()
 
-
-client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XdSLWQ.Fb9Gw3NBA2p5ovgwGs7FDHmd7uc')
+client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XxilRw.a03ihNogmVNuXysOe6ajp1e-OKE')

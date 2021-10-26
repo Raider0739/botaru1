@@ -1,15 +1,41 @@
 import discord
 import time
-import random
 import json
-
-import urllib
+import aiohttp
 from discord.ext import commands
 from discord.ext.commands import Greedy
 from discord import User
 from utils import http
+import asyncio
+import random
+import asyncpraw
 
-
+reddit = asyncpraw.Reddit(
+                     client_id="HnSytsXOGAIQUQ",
+                     client_secret="dOx5veQH6HuivOY-1Lrs731j1gryWg",
+                     user_agent="botaru",
+                     username="botarudev",
+                     password="u1t2k3u4"
+                     )
+def determineGender(mention):
+    """mention: one of: string, class discord.Mention"""
+    gender = None
+    if type(mention) == str:
+        gender = None
+    else:
+        for role in mention.roles:
+            if role.name.lower() in ["male", "trans m->f", "mtf", "m-f", "bi-curious male", "bi male", "gay male", "straight male", "straight guy", "pan & others male", "gay couple", "straight couple", "gentlemen", "guys", "guy", "gentleman", 'gentlemen',
+                                     "pan + others male"]:
+                gender = "male"
+            elif role.name.lower() in ["female", "bi-curious girl", "straight girl", "bi girl", "straight woman",
+                                       "straight female", "woman" "lesbian", "pan & others female", "lesbian couple",
+                                       "ladies", "lady", "non-binary", "bi female", "alien", "intersex", "transgender",
+                                       "pan + others female", "lesbian female", "bi - curious female", "bi woman", "genderqueer",
+                                       "genderfluid", "gender-fluid"]:
+                gender = "female"
+            elif role.name.lower() in ["f-m","ftm", "trans f->m", "trans", "tran","transexual", "transsexual", "other", "others"+"otherg", "trap"]:
+                gender = "trans"
+    return gender
 
 class Fun(commands.Cog):
 
@@ -71,35 +97,42 @@ class Fun(commands.Cog):
         raise error
 
     @commands.command()
-    async def cuddle(self, ctx, member: discord.Member):
+    async def cuddle(self, ctx, member:discord.Member=None):
         """
             Cuddles the member you mention
             """
-        author = ctx.message.author.name
-        mention = member.name
+        if ctx.invoked_subcommand is None:
+            try:
+                mentions = ctx.message.mentions[0]
+            except:
+                mentions = message
+            author = ctx.author.name
+            
 
-        cuddle = '**{0} cuddles {1}! So cute~~ **'
+            cuddle = '**{0} cuddles {1}! So cute~~ **'
 
-        choices = ['https://media1.tenor.com/images/8f8ba3baeecdf28f3e0fa7d4ce1a8586/tenor.gif?itemid=12668750',
-                   'https://media1.tenor.com/images/d16a9affe8915e6413b0c1f1d380b2ee/tenor.gif?itemid=12669052',
-                   'https://thumbs.gfycat.com/DecisiveThankfulHermitcrab-small.gif',
-                   'https://media.tenor.com/images/6c557a90736713c7183c1939cc8dd398/tenor.gif',
-                   'https://media1.tenor.com/images/d0c2e7382742f1faf8fcb44db268615f/tenor.gif?itemid=5853736',
-                   'https://media1.tenor.com/images/e07473d3cf372dbc24c760527740b85e/tenor.gif?itemid=12668884',
-                   'https://i.pinimg.com/originals/21/45/25/214525ad2d99ee7de4de42b138ae9e2a.gif',
-                   'https://gifimage.net/wp-content/uploads/2017/10/cuddle-anime-gif-13.gif',
-                   'https://media1.tenor.com/images/13be52a4a4a26b0c9e479df6644d6de5/tenor.gif?itemid=12668752',
-                   'https://cdn140.picsart.com/247171032013202.gif?r240x240',
-                   'https://media1.giphy.com/media/LVXJQat47MwQU/giphy.gif',
-                   'https://media.giphy.com/media/ohiWzVWGkAOCA/giphy.gif',
-                   'https://media.tenor.com/images/2b821a1dc983cacc20d721cf2e5f2190/tenor.gif']
+            choices = ['https://media1.tenor.com/images/8f8ba3baeecdf28f3e0fa7d4ce1a8586/tenor.gif?itemid=12668750',
+                    'https://media1.tenor.com/images/d16a9affe8915e6413b0c1f1d380b2ee/tenor.gif?itemid=12669052',
+                    'https://thumbs.gfycat.com/DecisiveThankfulHermitcrab-small.gif',
+                    'https://media.tenor.com/images/6c557a90736713c7183c1939cc8dd398/tenor.gif',
+                    'https://media1.tenor.com/images/d0c2e7382742f1faf8fcb44db268615f/tenor.gif?itemid=5853736',
+                    'https://media1.tenor.com/images/e07473d3cf372dbc24c760527740b85e/tenor.gif?itemid=12668884',
+                    'https://i.pinimg.com/originals/21/45/25/214525ad2d99ee7de4de42b138ae9e2a.gif',
+                    'https://gifimage.net/wp-content/uploads/2017/10/cuddle-anime-gif-13.gif',
+                    'https://media1.tenor.com/images/13be52a4a4a26b0c9e479df6644d6de5/tenor.gif?itemid=12668752',
+                    'https://cdn140.picsart.com/247171032013202.gif?r240x240',
+                    'https://media1.giphy.com/media/LVXJQat47MwQU/giphy.gif',
+                    'https://media.giphy.com/media/ohiWzVWGkAOCA/giphy.gif',
+                    'https://media.tenor.com/images/2b821a1dc983cacc20d721cf2e5f2190/tenor.gif']
 
-        image = random.choice(choices)
+            image = random.choice(choices)
 
-        embed = discord.Embed(description=cuddle.format(author, mention), colour=discord.Colour.blue())
-        embed.set_image(url=image)
+            embed = discord.Embed(description=cuddle.format(author, mentions.name), colour=discord.Colour.blue())
+            embed.set_image(url=image)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+
+
     @cuddle.error
     async def cuddle_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -107,37 +140,6 @@ class Fun(commands.Cog):
 
         raise error
 
-    @commands.command(aliases=['kisd'])
-    async def kiss(self, ctx, member: discord.Member):
-        """
-            Kisses the member you mention
-            """
-        author = ctx.message.author.name
-        mention = member.name
-
-        kiss = '**{0} gave {1} a kiss!**'
-
-        choices = ['https://media0.giphy.com/media/bGm9FuBCGg4SY/giphy.gif',
-                   'http://giphygifs.s3.amazonaws.com/media/FqBTvSNjNzeZG/giphy.gif',
-                   'https://media3.giphy.com/media/12VXIxKaIEarL2/giphy.gif',
-                   'https://media.tenor.com/images/197df534507bd229ba790e8e1b5f63dc/tenor.gif',
-                   'https://i1.wp.com/loveisaname.com/wp-content/uploads/2016/09/23.gif',
-                   'http://33.media.tumblr.com/tumblr_m7x4176tyH1ro4cfco1_500.gif',
-                   'https://wethehunted.files.wordpress.com/2015/11/katanagatari-kiss.gif',
-                   'https://i0.wp.com/media2.giphy.com/media/ll5leTSPh4ocE/giphy.gif?resize=500%2C290&ssl=1']
-
-        image = random.choice(choices)
-
-        embed = discord.Embed(description=kiss.format(author, mention), colour=discord.Colour.blue())
-        embed.set_image(url=image)
-
-        await ctx.send(embed=embed)
-    @kiss.error
-    async def kiss_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('You need to mention someone!')
-
-        raise error
 
     @commands.command()
     async def pat(self, ctx, member: discord.Member):
@@ -307,7 +309,14 @@ class Fun(commands.Cog):
                    'https://66.media.tumblr.com/2b29c66fba1630b73629d0d1cb28044f/tumblr_o0a467iac81u7esouo1_500.gif',
                    'https://66.media.tumblr.com/929a93a2237f518b1d872e3f0d8f3cec/tumblr_pxesib759D1ytpntyo1_540.gif',
                    'https://media1.tenor.com/images/6001ce02c96c53f319486b279a0eee94/tenor.gif?itemid=5298896',
-                   'https://media.tenor.com/images/0351b76e63a1b7d799936481f734477c/tenor.gif.']
+                   'https://media.tenor.com/images/0351b76e63a1b7d799936481f734477c/tenor.gif.',
+                   'https://media.tenor.com/images/87aa9335fc36112d5c5d29241b146126/tenor.gif',
+                   'https://media.tenor.com/images/fb1f35ea5f583474b3502cf5cd035aa9/tenor.gif',
+                   'https://media.tenor.com/images/ac2f7085820a706077d80e093b98615d/tenor.gif',
+                   'https://media.giphy.com/media/11HyAcbfWAOH2E/giphy.gif',
+                   'https://media.giphy.com/media/l3q2vScRNubmJGSUo/giphy.gif',
+                   'https://media.giphy.com/media/82ijKtxghtq8MrWRv6/giphy.gif',
+                   'https://media.giphy.com/media/KGw8FDgFPZhZAxYkZI/giphy.gif']
 
         image = random.choice(choices)
 
@@ -457,7 +466,7 @@ class Fun(commands.Cog):
         else:
 
             embed = discord.Embed(description='You\'re not mia gtfo!', colour=discord.Colour.blue())
-            embed.set_image(url='https://media0.giphy.com/media/IUksUxlnc6P7i/giphy.gif?cid=790b7611475929a00079c589e4cd5f6e4651bcd33f6460de&rid=giphy.gif')
+            embed.set_image(url='https://media1.tenor.com/images/d004741ef8203dba11dd77991f997357/tenor.gif?itemid=5100592')
 
             await ctx.send(embed=embed)
 
@@ -1250,10 +1259,15 @@ class Fun(commands.Cog):
         raise error
 
     @commands.command()
-    @commands.cooldown(rate=1, per=1.5, type=commands.BucketType.user)
     async def cat(self, ctx):
-        """ Posts a random cat """
-        await self.randomimageapi(ctx, 'https://nekos.life/api/v2/img/meow', 'url')
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://aws.random.cat/meow") as r:
+                data = await r.json()
+
+                embed = discord.Embed(title="Meow", colour=discord.Colour.blue())
+                embed.set_image(url=data['file'])
+                await ctx.send(embed=embed)
+
 
     @commands.command()
     @commands.cooldown(rate=1, per=1.5, type=commands.BucketType.user)
@@ -1328,6 +1342,483 @@ class Fun(commands.Cog):
         else:
             await ctx.send('It works!')
 
+    @commands.command()
+    async def yeet(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+            if member == ctx.author:
+                author = ctx.message.author.name
+                yeet = "**{0} yeets out of here!**"
+                choices = ['https://media.giphy.com/media/KzoZUrq40MaazLgHsg/giphy.gif',
+                           'https://media2.giphy.com/media/5PhDdJQd2yG1MvHzJ6/giphy.gif',
+                           'https://media.giphy.com/media/YnBthdanxDqhB99BGU/giphy.gif',
+                           'https://media1.tenor.com/images/b7cded2e6c866a147425f525eeb1e56e/tenor.gif?itemid=12559094',
+                           'https://media.giphy.com/media/J1ABRhlfvQNwIOiAas/giphy.gif',
+                           'https://media.giphy.com/media/4EEIsDmNJCiNcvAERe/giphy.gif',
+                           'https://media1.tenor.com/images/016ac4e4ec3bfd9edb26a6e9007cf087/tenor.gif?itemid=15298225',
+                           'https://media.tenor.com/images/8017b6a99c813cbd96421505ec093251/tenor.gif',
+                           'https://media.tenor.com/images/016e3e651e3c9382c3376832d2d5acd7/tenor.gif',
+                           'https://media.tenor.com/images/b753f87f998e57c0aa3e70b36251cfda/tenor.gif',
+                           'https://s0.gifyu.com/images/KwArmIT.gif',
+                           'https://s0.gifyu.com/images/0126a483e737d3adf9f1d8a006349c9f.gif',
+                           'https://s0.gifyu.com/images/tenor-1abe30c119a8b57e5.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=yeet.format(author), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif member:
+            author = ctx.message.author.name
+            member = member.name
+            yeet = "**{0} yeets {1} out of here!**"
+            choices = ['https://media.giphy.com/media/KzoZUrq40MaazLgHsg/giphy.gif',
+                       'https://media2.giphy.com/media/5PhDdJQd2yG1MvHzJ6/giphy.gif',
+                       'https://media.giphy.com/media/YnBthdanxDqhB99BGU/giphy.gif',
+                       'https://media1.tenor.com/images/b7cded2e6c866a147425f525eeb1e56e/tenor.gif?itemid=12559094',
+                       'https://media.giphy.com/media/J1ABRhlfvQNwIOiAas/giphy.gif',
+                       'https://media.giphy.com/media/4EEIsDmNJCiNcvAERe/giphy.gif',
+                       'https://media1.tenor.com/images/016ac4e4ec3bfd9edb26a6e9007cf087/tenor.gif?itemid=15298225',
+                       'https://media.tenor.com/images/8017b6a99c813cbd96421505ec093251/tenor.gif',
+                       'https://media.tenor.com/images/016e3e651e3c9382c3376832d2d5acd7/tenor.gif',
+                       'https://media.tenor.com/images/b753f87f998e57c0aa3e70b36251cfda/tenor.gif',
+                       'https://s0.gifyu.com/images/KwArmIT.gif',
+                       'https://s0.gifyu.com/images/0126a483e737d3adf9f1d8a006349c9f.gif',
+                       'https://s0.gifyu.com/images/tenor-1abe30c119a8b57e5.gif']
+            image = random.choice(choices)
+
+            embed = discord.Embed(description=yeet.format(author, member), colour=discord.Colour.blue())
+            embed.set_image(url=image)
+
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def weed(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+            if member == ctx.author:
+                author = ctx.author.name
+                weed = '**{0} smokes weed all alone**'
+
+                choices = ['https://media.giphy.com/media/KpAPQVW9lWnWU/giphy.gif',
+                           'https://media.giphy.com/media/jy4kfeF7Taw48/giphy.gif',
+                           'https://media.giphy.com/media/ftdUGIeXOlE290OHjc/giphy.gif',
+                           'https://media.giphy.com/media/mBHNZRnjvIVMc/giphy.gif',
+                           'https://media.giphy.com/media/Kj6ADcuUnpn68/giphy.gif',
+                           'https://media.giphy.com/media/26gJAaPZKuQutL1mg/giphy.gif',
+                           'https://media.giphy.com/media/12Etpv4q5ZmXxm/giphy.gif',
+                           'https://media.giphy.com/media/2Y8Iq3xe121Ba3hUAM/giphy.gif',
+                           'https://media.giphy.com/media/s5CJw8UPITK6I/giphy.gif',
+                           'https://media.giphy.com/media/hrWuupb0FAcWk/giphy.gif',
+                           'https://media.giphy.com/media/xTiTnkCSkEeBijjq00/giphy.gif',
+                           'https://media.giphy.com/media/ghiI1d2FT12E0/giphy.gif']
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=weed.format(author), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+
+                await ctx.send(embed=embed)
+
+        elif member:
+            author = ctx.author.name
+            mention = member.name
+
+            weed = '**{0} smokes weed with {1}**'
+            choices = ['https://media.giphy.com/media/KpAPQVW9lWnWU/giphy.gif',
+                       'https://media.giphy.com/media/jy4kfeF7Taw48/giphy.gif',
+                       'https://media.giphy.com/media/ftdUGIeXOlE290OHjc/giphy.gif',
+                       'https://media.giphy.com/media/mBHNZRnjvIVMc/giphy.gif',
+                       'https://media.giphy.com/media/Kj6ADcuUnpn68/giphy.gif',
+                       'https://media.giphy.com/media/26gJAaPZKuQutL1mg/giphy.gif',
+                       'https://media.giphy.com/media/12Etpv4q5ZmXxm/giphy.gif',
+                       'https://media.giphy.com/media/2Y8Iq3xe121Ba3hUAM/giphy.gif',
+                       'https://media.giphy.com/media/s5CJw8UPITK6I/giphy.gif',
+                       'https://media.giphy.com/media/hrWuupb0FAcWk/giphy.gif',
+                       'https://media.giphy.com/media/xTiTnkCSkEeBijjq00/giphy.gif',
+                       'https://media.giphy.com/media/ghiI1d2FT12E0/giphy.gif']
+            image = random.choice(choices)
+
+            embed = discord.Embed(description=weed.format(author, mention), colour=discord.Colour.blue())
+            embed.set_image(url=image)
+
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def cake(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+            if member == ctx.author:
+                author = ctx.author.name
+                cake = '**{0} takes a cake to eat**'
+
+                choices = ['https://media.giphy.com/media/9u8GF7MuhdvS8/giphy.gif',
+                           'https://media.giphy.com/media/He4wudo59enf2/giphy.gif',
+                           'https://media.giphy.com/media/jbKaOGsQyBgRgi83t3/giphy.gif',
+                           'https://media.giphy.com/media/E5jCN5tsN21Ec/giphy.gif',
+                           'https://media.giphy.com/media/TEkr9oBZ57KFmMWScZ/giphy.gif',
+                           'https://media.giphy.com/media/hNahVvxcVA9Og/giphy.gif',
+                           'https://media.giphy.com/media/26FmPC0waZwmJoGY0/giphy.gif']
+
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cake.format(author), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+                await ctx.send(embed=embed)
+
+        elif member:
+            author = ctx.author.name
+            mention = member.name
+            cake = '**{0} takes a cake to eat with {1}**'
+
+            choices = ['https://media.giphy.com/media/9u8GF7MuhdvS8/giphy.gif',
+                       'https://media.giphy.com/media/He4wudo59enf2/giphy.gif',
+                       'https://media.giphy.com/media/jbKaOGsQyBgRgi83t3/giphy.gif',
+                       'https://media.giphy.com/media/E5jCN5tsN21Ec/giphy.gif',
+                       'https://media.giphy.com/media/TEkr9oBZ57KFmMWScZ/giphy.gif',
+                       'https://media.giphy.com/media/hNahVvxcVA9Og/giphy.gif',
+                       'https://media.giphy.com/media/26FmPC0waZwmJoGY0/giphy.gif']
+
+            image = random.choice(choices)
+
+            embed = discord.Embed(description=cake.format(author, mention), colour=discord.Colour.blue())
+            embed.set_image(url=image)
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def pout(self, ctx):
+        author = ctx.author.name
+        pout = '**{0} pouts!!**'
+        choices = ['https://media1.tenor.com/images/b7e132fd3f4e110ea54ef8aa8f4eebbe/tenor.gif?itemid=15650605',
+                   'https://media.tenor.com/images/3e0c7be0cb8e24c389f5e1f78a8f69a5/tenor.gif',
+                   'https://media1.tenor.com/images/2aedb9ff34aa111c5789004d22d05a78/tenor.gif?itemid=12144903',
+                   'https://media1.tenor.com/images/834176874a04f82c10b6f0ea6180212c/tenor.gif?itemid=7302800',
+                   'https://media1.tenor.com/images/d52117b1bbec0fa89baa8095e2c0fe87/tenor.gif?itemid=11686117',
+                   'https://media.tenor.com/images/4217a276896fa6b73099cf84f136e795/tenor.gif',
+                   'https://media1.tenor.com/images/760ec8be1ccf4e9ca49f976b34cdc6e9/tenor.gif?itemid=5478780',
+                   'https://media.tenor.com/images/011ec2a67e69cd48570bf530ce84016b/tenor.gif',
+                   'https://media1.tenor.com/images/a2cde795512dffb7ed89448a14d7e68e/tenor.gif?itemid=12007445']
+        image = random.choice(choices)
+
+        embed = discord.Embed(description=pout.format(author), colour=discord.Colour.blue())
+        embed.set_image(url=image)
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def aesthetic(self, ctx):
+        if ctx.message.author.id == 264613923490234368:
+            choices = ['https://www.wykop.pl/cdn/c3201142/comment_EK77chp6pkcJ5Y4qxMJT32YCW8zHDqwA.gif',
+                       'https://thumbs.gfycat.com/ValidWearyDipper-small.gif',
+                       'https://thumbs.gfycat.com/LikelyWearyDartfrog-small.gif',
+                       'https://thumbs.gfycat.com/ShamefulGeneralDairycow-small.gif',
+                       'https://thumbs.gfycat.com/LimpBestFritillarybutterfly-small.gif',
+                       'https://thumbs.gfycat.com/BountifulLikableBellfrog-small.gif']
+            image = random.choice(choices)
+
+            embed = discord.Embed(colour=discord.Colour.blue())
+            embed.set_image(url=image)
+            await ctx.send(embed=embed)
+
+        else:
+            await ctx.send("You don't have access to this command")
+
+    @commands.command()
+    async def howgay(self, ctx, member:discord.Member = None):
+        if not member:
+            member = ctx.author
+            number = random.randint(0, 100)
+            emoji = self.client.get_emoji(704452881616732251)
+            embed = discord.Embed(description=f"{member.name} is {number}% {emoji}", colour=discord.Colour.blue())
+            await ctx.send(embed=embed)
+
+        else:
+            number = random.randint(0, 100)
+            emoji = self.client.get_emoji(704452881616732251)
+            embed = discord.Embed(description=f"{member.name} is {number}% {emoji}", colour=discord.Colour.blue())
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def coffee(self, ctx, member:discord.Member = None):
+        if not member:
+            member = ctx.author
+            if member == ctx.author:
+                author = ctx.author.name
+                cake = '**{0} takes a coffee to drink**'
+
+                choices = ['https://media3.giphy.com/media/3oriO04qxVReM5rJEA/200.gif',
+                           'https://media2.giphy.com/media/PkFHBnpzHZTCBX1ZwU/giphy.gif',
+                           'https://media.giphy.com/media/u9QoHec9uGfq8/giphy.gif',
+                           'https://media.giphy.com/media/xT5LMT6SSx83oZz464/giphy.gif',
+                           'https://akns-images.eonline.com/eol_images/Entire_Site/2015829/rs_500x200-150929111657-635645773709041928-948364329_LeslieKnope_coffee.gif?fit=inside|900:auto&output-quality=90',
+                           'https://gif-free.com/uploads/posts/2017-07/1500311393_jim-carrey-coffee.gif',
+                           'https://media1.giphy.com/media/HVhofxmUXMyGs/giphy.gif']
+
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cake.format(author), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+                await ctx.send(embed=embed)
+
+        elif member:
+                author = ctx.author.name
+                mention = member.name
+                cake = '**{0} drinks a coffee with {1}**'
+
+                choices = ['https://media3.giphy.com/media/3oriO04qxVReM5rJEA/200.gif',
+                           'https://media2.giphy.com/media/PkFHBnpzHZTCBX1ZwU/giphy.gif',
+                           'https://media.giphy.com/media/u9QoHec9uGfq8/giphy.gif',
+                           'https://media.giphy.com/media/xT5LMT6SSx83oZz464/giphy.gif',
+                           'https://akns-images.eonline.com/eol_images/Entire_Site/2015829/rs_500x200-150929111657-635645773709041928-948364329_LeslieKnope_coffee.gif?fit=inside|900:auto&output-quality=90',
+                           'https://gif-free.com/uploads/posts/2017-07/1500311393_jim-carrey-coffee.gif',
+                           'https://media1.giphy.com/media/HVhofxmUXMyGs/giphy.gif']
+
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=cake.format(author, mention), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+                await ctx.send(embed=embed)
+
+    @commands.command()
+    async def dab(self, ctx, member: discord.Member = None):
+        if not member:
+            member = ctx.author
+            if member == ctx.author:
+                author = ctx.author.name
+                randomize = ['**{0} dabs furiously**',
+                             '**{0} dabs on them haters**',
+                             '**{0} dabs so hard everyone notices it**',
+                             '**{0} is on a dabbing spree**',
+                             '**{0} dabs nonstop**']
+                dab = random.choice(randomize)
+
+                choices = ['https://media.giphy.com/media/A4R8sdUG7G9TG/giphy.gif',
+                           'https://media.giphy.com/media/SoshjAcfNsOsw/giphy.gif',
+                           'https://media.giphy.com/media/lae7QSMFxEkkE/giphy.gif',
+                           'https://media.giphy.com/media/5zKGCHBd8x5GE/giphy.gif',
+                           'https://media.giphy.com/media/l0Iy0re0QAYULZvPy/giphy.gif',
+                           'https://media.giphy.com/media/3oKIP6AYztSrFZ0AoM/giphy.gif',
+                           'https://media.giphy.com/media/oqJrPBk7UzhIc/giphy.gif',
+                           'https://media.giphy.com/media/26BRI6cTc6tUzeYNO/giphy.gif',
+                           'https://media.giphy.com/media/l0JMeYqiwKDkZsEOk/giphy.gif']
+
+                image = random.choice(choices)
+
+                embed = discord.Embed(description=dab.format(author), colour=discord.Colour.blue())
+                embed.set_image(url=image)
+                await ctx.send(embed=embed)
+
+        elif member:
+            author = ctx.author.name
+            mention = member.name
+            randomize = ['**{0} dabs on {1}**',
+                         '**{0} dabs furiously on {1}**',
+                         '**{0} can\'t stop dabbing on {1}**',
+                         '**{0} keeps dabbing on {1}**']
+            dab = random.choice(randomize)
+
+            choices = ['https://media.giphy.com/media/A4R8sdUG7G9TG/giphy.gif',
+                       'https://media.giphy.com/media/SoshjAcfNsOsw/giphy.gif',
+                       'https://media.giphy.com/media/lae7QSMFxEkkE/giphy.gif',
+                       'https://media.giphy.com/media/5zKGCHBd8x5GE/giphy.gif',
+                       'https://media.giphy.com/media/l0Iy0re0QAYULZvPy/giphy.gif',
+                       'https://media.giphy.com/media/3oKIP6AYztSrFZ0AoM/giphy.gif',
+                       'https://media.giphy.com/media/oqJrPBk7UzhIc/giphy.gif',
+                       'https://media.giphy.com/media/26BRI6cTc6tUzeYNO/giphy.gif',
+                       'https://media.giphy.com/media/l0JMeYqiwKDkZsEOk/giphy.gif']
+
+            image = random.choice(choices)
+
+            embed = discord.Embed(description=dab.format(author, mention), colour=discord.Colour.blue())
+            embed.set_image(url=image)
+            await ctx.send(embed=embed)
+
+    @commands.command(aliases=['donate'])
+    async def patreon(self, ctx):
+        embed = discord.Embed(title="Click this to go to Patreon page to Support me and my owner~~", url="https://www.patreon.com/botarubot",
+                              colour=discord.Colour.blue())
+        embed.set_image(url="https://cdn.discordapp.com/attachments/819952464127459338/821746131825721344/botarupat.png")
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def meme(self, ctx):
+        subreddit = await reddit.subreddit("memes", fetch=True)
+
+        all_subs = []
+        async for submission in subreddit.hot(limit=100):
+            all_subs.append(submission)
+
+        random_sub = random.choice(all_subs)
+
+        name = random_sub.title
+        url = random_sub.url
+
+        em = discord.Embed(title=name, colour=discord.Colour.blue())
+        em.set_image(url=url)
+
+        await ctx.send(embed=em)
+
+    @commands.command()
+    @commands.cooldown(1, 540, commands.BucketType.user)
+    async def respond(self, ctx):
+        if ctx.author.id == 193419820660686848:
+            user_id = await self.client.fetch_user(464802706930794496)
+            i = 0
+            
+            await ctx.send("I'll go annoy <@464802706930794496> till he responds to you")
+            while i < 45:
+                choices = ["**Raider what's taking you so long bitch**",
+                        "**Stop Jerking off and reply to me you hoe**",
+                        "**I'M HORNY BE QUICK**",
+                        "**Check Your DMs Bitch**",
+                        "**COME ON RAIDER CONTINUE THE RP**",
+                        ":woman_with_probing_cane:",
+                        ":woman_standing:"]
+                ran = random.choice(choices)
+                await user_id.send(ran)
+                await asyncio.sleep(10)
+                i += 1
+            
+        else:
+            self.respond.reset_cooldown(ctx)
+            choices = [
+                'https://cdn.discordapp.com/attachments/798913238229188608/822156703285379119/giphy_1.gif',
+                'https://cdn.discordapp.com/attachments/798913238229188608/822156709862178846/067025659eb25f9b74605738d1b2a7a7.gif',
+                'https://cdn.discordapp.com/attachments/798913238229188608/822155216287039509/IcyCookedCoot-small.gif',
+                'https://cdn.discordapp.com/attachments/798913238229188608/822156711674118174/200.gif',
+                'https://cdn.discordapp.com/attachments/798913238229188608/822156717138772048/giphy.gif',
+                'https://media1.tenor.com/images/d004741ef8203dba11dd77991f997357/tenor.gif?itemid=5100592']
+            img = random.choice(choices)
+            embed = discord.Embed(title="This is a Custom Command", colour=discord.Colour.blue())
+            embed.set_image(url=img)
+            embed.set_footer(text="$patreon to buy a custom command!")
+            await ctx.send(embed=embed)        
+    
+    @respond.error
+    async def respond_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            em = discord.Embed(title=f"Slow it down Mandy!",description=f"Try again in {error.retry_after:.2f}s.", colour=discord.Colour.blue())
+            await ctx.send(embed=em)
+
+    @commands.command(aliases=["tacos"])
+    async def taco(self, ctx, message=None):
+        try:
+            mentions = ctx.message.mentions[0]
+        except:
+            mentions = message
+        author = ctx.author.name
+        
+        if mentions == message:
+            if message == None:
+                    txt = ["{0} says its taco time bitches",
+                            "{0} wants to stuff everyone with tacos",
+                            "{0} loves them tacos",
+                            "{0} wants to be the hot sauce on your tacos",
+                            "{0} wishes she/he was full of tacos instead of emotions"]
+                    
+                    choices = ["https://cdn.discordapp.com/attachments/827259361399013386/827259706762068009/giphy.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259709731897384/taco-tuesday-icegif-6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259720628174898/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728379248661/tenor_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728585162762/tenor.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259738050920468/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259751644528640/5675e7e773bde91de2e54f088e88c5b1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259754493116480/200_d.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259791586885672/SimpleSpitefulChinchilla-small.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259798403285002/giphy_6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259830976381009/giphy_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259838757208125/en4HK93.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259859215974400/200.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259861535817748/FastInbornFlyingfox-size_restricted.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259870243061851/giphy_7.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259875364438026/79db514f-9b1e-450f-812b-73f0e6f5253f_text.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259891265437746/giphy_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259898714390629/bc53f3ffcb2f4775-.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259922986827856/0QzK050.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259928803934258/taco-party-1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259954729713744/giphy_3.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259977655517184/giphy_4.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259986869485568/d70730aba0c133bc6d1f84fe5d50a336.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259987842695198/giphy_5.gif"
+                            ]
+                    img = random.choice(choices)
+                    text = random.choice(txt)
+                    embed = discord.Embed(title=text.format(author), colour=discord.Colour.blue())
+                    embed.set_image(url=img)
+                    await ctx.send(embed=embed)
+            else:
+                    txt = ["{0} says its taco time bitches to {1}",
+                            "{0} wants to stuff {1} with tacos",
+                            "{0} loves them tacos with {1}",
+                            "{0} wants to be the hot sauce on your tacos {1}",
+                            "{0} says shut up and take this taco to {1}"]
+                    
+                    choices = ["https://cdn.discordapp.com/attachments/827259361399013386/827259706762068009/giphy.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259709731897384/taco-tuesday-icegif-6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259720628174898/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728379248661/tenor_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728585162762/tenor.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259738050920468/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259751644528640/5675e7e773bde91de2e54f088e88c5b1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259754493116480/200_d.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259791586885672/SimpleSpitefulChinchilla-small.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259798403285002/giphy_6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259830976381009/giphy_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259838757208125/en4HK93.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259859215974400/200.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259861535817748/FastInbornFlyingfox-size_restricted.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259870243061851/giphy_7.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259875364438026/79db514f-9b1e-450f-812b-73f0e6f5253f_text.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259891265437746/giphy_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259898714390629/bc53f3ffcb2f4775-.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259922986827856/0QzK050.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259928803934258/taco-party-1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259954729713744/giphy_3.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259977655517184/giphy_4.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259986869485568/d70730aba0c133bc6d1f84fe5d50a336.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259987842695198/giphy_5.gif"
+                            ]
+                    img = random.choice(choices)
+                    text = random.choice(txt)
+                    embed = discord.Embed(title=text.format(author, mentions), colour=discord.Colour.blue())
+                    embed.set_image(url=img)
+                    await ctx.send(embed=embed)
+        else:
+                txt = ["{0} says its taco time bitches to {1}",
+                            "{0} wants to stuff {1} with tacos",
+                            "{0} loves them tacos with {1}",
+                            "{0} wants to be the hot sauce on your tacos {1}",
+                            "{0} says shut up and take this taco to {1}"]
+                text = random.choice(txt)
+                choices = ["https://cdn.discordapp.com/attachments/827259361399013386/827259706762068009/giphy.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259709731897384/taco-tuesday-icegif-6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259720628174898/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728379248661/tenor_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259728585162762/tenor.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259738050920468/tenor_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259751644528640/5675e7e773bde91de2e54f088e88c5b1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259754493116480/200_d.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259791586885672/SimpleSpitefulChinchilla-small.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259798403285002/giphy_6.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259808268288070/200_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259830976381009/giphy_2.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259838757208125/en4HK93.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259861535817748/FastInbornFlyingfox-size_restricted.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259870243061851/giphy_7.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259875364438026/79db514f-9b1e-450f-812b-73f0e6f5253f_text.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259891265437746/giphy_1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259898714390629/bc53f3ffcb2f4775-.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259922986827856/0QzK050.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259928803934258/taco-party-1.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259954729713744/giphy_3.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259977655517184/giphy_4.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259986869485568/d70730aba0c133bc6d1f84fe5d50a336.gif",
+                            "https://cdn.discordapp.com/attachments/827259361399013386/827259987842695198/giphy_5.gif"
+                            ]
+                img = random.choice(choices)
+                embed = discord.Embed(title=text.format(author, mentions.name), colour=discord.Colour.blue())
+                embed.set_image(url=img)
+                await ctx.send(embed=embed)
+        
 
 def setup(client):
     client.add_cog(Fun(client))

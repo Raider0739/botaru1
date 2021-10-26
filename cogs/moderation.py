@@ -2,10 +2,16 @@ import discord
 import random
 import os
 import datetime
+import asyncio
+import time
 from discord.ext import commands
 from discord.ext.commands import Greedy
 from discord import User
 
+def getTime():
+    currenttime = time.time()
+    datetim = datetime.datetime.fromtimestamp(currenttime).strftime("%c")
+    return datetim
 
 class Moderation(commands.Cog):
 
@@ -17,7 +23,6 @@ class Moderation(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
     @commands.command(aliases = ['purge'])
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount: int):
@@ -28,7 +33,10 @@ class Moderation(commands.Cog):
 
         await channel.purge(limit=amount+1)
 
-        await ctx.send(f'{amount} messages deleted')
+        msg = await ctx.send(f'{amount} messages deleted')
+
+        await asyncio.sleep(10)
+        await msg.delete()
 
     @clear.error
     async def clear_error(self, ctx, error):
@@ -62,16 +70,34 @@ class Moderation(commands.Cog):
     @commands.command(pass_context=True, aliases=['ar'])
     @commands.has_role('Verification Team')
     async def addrole(self, ctx, user: discord.Member, *, role: discord.Role):
-        if role in user.roles:
-            await user.remove_roles(role)
-            await ctx.send(f"**{ctx.author.name} has removed a role called: {role.name} from {user.name}**")
+            if role in user.roles:
+                await user.remove_roles(role)
+                emb = discord.Embed(description=f"**{ctx.author.name} has removed a role called: {role.name} from {user.name}**", colour=discord.Colour.blue())
+                channel = self.client.get_channel(626876374497624089)
+                embed = discord.Embed(colour=discord.Colour.blue(), timestamp=ctx.message.created_at)
+                embed.set_author(name="Role removed", icon_url=user.avatar_url)
+                embed.add_field(name="User Name", value=user.mention, inline=True)
+                embed.add_field(name="Role Name", value=role.name, inline=True)
+                embed.add_field(name="Removed by", value=ctx.author.mention, inline=False)
+                await ctx.send(embed=emb)
+                await channel.send(embed=embed)
 
-        else:
-            await user.add_roles(role)
-            await ctx.send(f"**Hey {ctx.author.name}, {user.name} has been given a role called: {role.name}**")
+            else:
+                await user.add_roles(role)
+                emb = discord.Embed(description=f"**Hey {ctx.author.name}, {user.name} has been given a role called: {role.name}**", colour=discord.Colour.blue())
+                channel = self.client.get_channel(626876374497624089)
+                embed = discord.Embed(colour=discord.Colour.blue(), timestamp=ctx.message.created_at)
+                embed.set_author(name="Role added", icon_url=user.avatar_url)
+                embed.add_field(name="User Name", value=user.mention, inline=True)
+                embed.add_field(name="Role Name", value=role.name, inline=True)
+                embed.add_field(name="Added by", value=ctx.author.mention, inline=False)
+                await ctx.send(embed=emb)
+                await channel.send(embed=embed)
 
     @addrole.error
     async def addrole_error(self, ctx, error):
+        if isinstance(error, commands.CheckFailure):
+            await ctx.send("**Make sure you got everything right**")
 
         if isinstance(error, commands.MissingRole):
             await ctx.send('**You aren\'t a staff member**')
@@ -80,14 +106,6 @@ class Moderation(commands.Cog):
             await ctx.send('**You need to give user id or mention someone**')
 
         raise error
-
-    @commands.command()
-    async def testgroup(self, ctx, users: Greedy[User]):
-        list = ''
-        for user in users:
-            list += f'{user.name}'
-
-        await ctx.send(f'{list}')
 
     @commands.command(aliases=['ra'])
     @commands.has_permissions(manage_roles=True)
@@ -138,17 +156,12 @@ class Moderation(commands.Cog):
 
     @commands.command(pass_context=True)
     async def serverinfo(self, ctx):
-        online = 0
-        for i in ctx.guild.members:
-            if str(i.status) == 'online' or str(i.status) == 'idle' or str(i.status) == 'dnd':
-                online += 1
 
         embed = discord.Embed(title="{}'s info".format(ctx.guild.name),
                               description="Information on the server", color=0xcc0000)
         embed.add_field(name="Server Name", value=ctx.guild.name, inline=True)
         embed.add_field(name="Server ID", value=ctx.guild.id, inline=True)
-        embed.add_field(name="Members", value=str(len(ctx.guild.members)))
-        embed.add_field(name="Online Members", value=str(online))
+        embed.add_field(name="Members", value=str(ctx.guild.member_count))
         embed.add_field(name="Owner", value=ctx.guild.owner, inline=True)
         embed.add_field(name="Role Count", value=str(len(ctx.guild.roles)))
         embed.add_field(name="Region", value=ctx.guild.region, inline=True)
@@ -161,6 +174,35 @@ class Moderation(commands.Cog):
         await ctx.send(embed=embed)
         print("Server Info requested")
 
+    @commands.command()
+    @commands.is_owner()
+    async def remind(self, ctx, *, args):
+        getTime()
+        msg = args.split(' ')
+        reminder = ' '.join(map(str, msg[0:-1]))
+        try:
+            if 's' in msg[-1]:
+                time = int(msg[-1].replace('s', ''))
+                await ctx.send(f"Ok i will remind you in {str(msg[-1].replace('s', ''))} seconds to {reminder}")
+                await asyncio.sleep(time)
+                await ctx.author.send(
+                    f"You asked me to remind you to {reminder} {str(time)} seconds from {str(getTime())}")
+
+            if 'm' in msg[-1]:
+                time = int(msg[-1].replace('m', '')) * 60
+                await ctx.send(f"Ok i will remind you in {str(msg[-1].replace('m', ''))} minutes to {reminder}")
+                await asyncio.sleep(time)
+                await ctx.author.send(
+                    f"You asked me to remind you to {reminder} {str(time // 60)} minutes from {str(getTime())}")
+
+            if 'h' in msg[-1]:
+                time = int(msg[-1].replace('h', '')) * 3600
+                await ctx.send(f"Ok i will remind you in {str(args[-1].replace('h', ''))} hours to {reminder}")
+                await asyncio.sleep(time)
+                await ctx.author.send(
+                    f"You asked me to remind you to {reminder} {str(time // 3600)} hours from {str(getTime())}")
+        except:
+            pass
 
 def setup(client):
     client.add_cog(Moderation(client))
