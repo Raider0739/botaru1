@@ -31,6 +31,11 @@ def get_prefix(client, message):
 intents = discord.Intents.default()
 
 intents.members = True
+initial_extensions = ['cogs.actions', 'cogs.events', 'cogs.example', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw', 'cogs.prefix']
+client = commands.Bot(command_prefix=get_prefix)
+status = cycle(['$help for commands', '$nsfw for nsfw commands', 'Still under Development'])
+owner = client.is_owner(user='464802706930794496')
+client.timer_manager = timers.TimerManager(client)
 
 initial_extensions = ['cogs.character', 'cogs.help', 'cogs.marriage', 'cogs.levels', 'cogs.prefix', 'cogs.actions', 'cogs.events', 'cogs.fun', 'cogs.moderation', 'cogs.nsfw']
 client = commands.Bot(command_prefix=get_prefix, case_insensitive=True, intents=intents)
@@ -139,4 +144,9 @@ if __name__ == '__main__':
             print(f'Failed to load extension {extension}.', file=sys.stderr)
             traceback.print_exc()
 
+<<<<<<< HEAD
 client.run('NDg5ODA4MDc0OTI5MDc4Mjcy.XxilRw.a03ihNogmVNuXysOe6ajp1e-OKE')
+=======
+
+client.run(os.environ['token'])
+>>>>>>> ed4de21a87fd83201281390adb97ea4f098d7b65
